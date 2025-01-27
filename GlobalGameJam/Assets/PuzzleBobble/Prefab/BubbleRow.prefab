@@ -53,7 +53,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
   bubbleSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -62,9 +61,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
   spacing: 1
-  offset: 0
+  offset: 0.5
 --- !u!68 &8757994926355678726
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -97,11 +95,11 @@ EdgeCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: -0}
+  m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 0, y: 0}
-  - {x: 8, y: 0}
+  - {x: -3.5, y: 0}
+  - {x: 3.5, y: 0}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

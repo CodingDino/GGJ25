@@ -40,7 +40,8 @@ namespace PuzzleBobble
                     transform.position = targetPos;
                     // TODO: Lerp instead of instant snap
 
-                    // TODO: Tell bubble grid that this bubble is now in place
+                    // Tell bubble grid that this bubble is now in place
+                    currentGrid.AddBubble(this);
 
                     // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 

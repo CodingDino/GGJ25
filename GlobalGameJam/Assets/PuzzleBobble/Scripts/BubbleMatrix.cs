@@ -7,6 +7,7 @@ namespace PuzzleBobble
 {
     public class BubbleMatrix : MonoBehaviour
     {
+        public int player = 1;
         public float startSpeed = 1f;
         public float speedIncreaseDur = 10f;
         public float speedIncreaseAmmount = 0.5f;
@@ -84,13 +85,21 @@ namespace PuzzleBobble
             // row has reached bottom, time to move up
             if (rows[0].transform.position.y < transform.position.y)
             {
-                // Check loss!
-
-                // Return back up
                 BubbleRow row = rows[0];
-                rows.RemoveAt(0);
-                Destroy(row.gameObject);
-                SpawnNewRow(true);
+
+                // Check loss!
+                if (row.HasBubbles())
+                {
+                    Debug.LogError("You lose!");
+                }
+                else
+                {
+                    // Return back up
+                    rows.RemoveAt(0);
+                    Destroy(row.gameObject);
+                    SpawnNewRow(true);
+                }
+
             }
 
             // Increase speed
