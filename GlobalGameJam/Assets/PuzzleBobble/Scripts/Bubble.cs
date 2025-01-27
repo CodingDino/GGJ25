@@ -25,9 +25,12 @@ namespace PuzzleBobble
             if (otherBubble)
             {
                 // Only act if we were the moving bubble:
-                if (!GetComponent<Rigidbody2D>().isKinematic)
+                if (!GetComponent<Rigidbody2D>().isKinematic && currentGrid)
                 {
                     Debug.Log("Collision!");
+
+                    // Make the bubble a child of the grid
+                    transform.parent = currentGrid.transform;
 
                     // turn off rigidbody motion
                     GetComponent<Rigidbody2D>().velocity = Vector2.zero;
