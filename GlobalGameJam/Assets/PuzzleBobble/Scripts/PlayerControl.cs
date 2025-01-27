@@ -14,6 +14,7 @@ namespace PuzzleBobble
         public Transform aimRoot = null;
         public Transform currentBubbleRoot;
         public Transform nextBubbleRoot;
+        public float maxAngle = 75f;
 
         public float firingVelocity = 10f;
 
@@ -23,6 +24,7 @@ namespace PuzzleBobble
         private Bubble nextBubble;
 
         private float currentAngle = 0;
+        
 
         private int player = 1;
 
@@ -74,6 +76,7 @@ namespace PuzzleBobble
             // Aiming
             float axisVal = Input.GetAxis(player + "-" + axisH);
             currentAngle += axisVal * Time.deltaTime * rotateSpeed;
+            currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
             aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
         }
 
