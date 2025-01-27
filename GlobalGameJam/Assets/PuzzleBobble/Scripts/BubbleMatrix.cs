@@ -90,7 +90,7 @@ namespace PuzzleBobble
                 // Check loss!
                 if (row.HasBubbles())
                 {
-                    Debug.LogError("You lose!");
+                    Debug.LogError("Player "+player+" loses!");
                 }
                 else
                 {

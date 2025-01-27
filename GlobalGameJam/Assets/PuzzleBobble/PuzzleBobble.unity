@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6d5c40bb14f514db44f515dbd1e9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
+  player: 2
   startSpeed: 0.25
   speedIncreaseDur: 10
   speedIncreaseAmmount: 0.1
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c3cb3349930c542b99496fcd6b9c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNum: 1
+  playerNum: 2
   axisH: Horizontal
   buttonFire: Fire
   buttonSwap: Swap

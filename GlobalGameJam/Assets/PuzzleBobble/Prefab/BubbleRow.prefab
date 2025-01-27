@@ -62,7 +62,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   spacing: 1
-  offset: 0.5
+  offset: 0
 --- !u!68 &8757994926355678726
 EdgeCollider2D:
   m_ObjectHideFlags: 0
