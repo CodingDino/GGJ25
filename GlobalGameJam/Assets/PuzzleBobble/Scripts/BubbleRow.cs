@@ -29,12 +29,12 @@ namespace PuzzleBobble
 
         public float GetWidth()
         {
-            return bubblePrefabs.Length * spacing;
+            return (bubblePrefabs.Length-1) * spacing;
         }
 
         public Vector3 GetBasePos()
         {
-            return transform.position + - Vector3.right * GetWidth() * 0.5f;
+            return transform.position - Vector3.right * GetWidth() * 0.5f;
         }
 
         public Vector3 GetSlotPos(int i)
@@ -84,7 +84,7 @@ namespace PuzzleBobble
             EdgeCollider2D col = GetComponent<EdgeCollider2D>();
             Vector2[] points = col.points;
             points[0] = new Vector2(-GetWidth() * 0.5f, 0);
-            points[1] = new Vector2(GetWidth()*0.5f, 0);
+            points[1] = new Vector2( GetWidth() * 0.5f + spacing, 0);
             col.points = points;
         }
 

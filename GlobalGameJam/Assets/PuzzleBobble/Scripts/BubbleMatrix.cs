@@ -27,11 +27,11 @@ namespace PuzzleBobble
 
         private float GetRightOffset()
         {
-            return offset;// * 0.5f;
+            return offset * 0.5f;
         }
         private float GetLeftOffset()
         {
-            return 0;// GetRightOffset() * - 1f;
+            return  GetRightOffset() * - 1f;
         }
 
         private BubbleRow SpawnNewRow(bool populate = false)

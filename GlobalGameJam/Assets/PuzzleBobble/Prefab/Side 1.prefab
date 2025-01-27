@@ -131,7 +131,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5560351780621766846}
@@ -163,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 5061554991017274676}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -3.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -181,11 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6d5c40bb14f514db44f515dbd1e9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeed: 0.25
+  startSpeed: 0.05
   speedIncreaseDur: 10
-  speedIncreaseAmmount: 0.1
-  spacing: 1
-  startingRows: 8
+  speedIncreaseAmmount: 0.01
+  spacing: 0.5
+  startingRows: 20
+  filledRowIndex: 15
+  offset: 0.25
   rowPrefab: {fileID: 7023451687586329309, guid: ebe799df93773c2488252983d7f9e1e7,
     type: 3}
   possibleBubbles:
@@ -304,8 +306,8 @@ Transform:
   m_GameObject: {fileID: 6251173308543833176}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -4.41, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3745252880595273010}
@@ -454,7 +456,7 @@ PrefabInstance:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
@@ -528,7 +530,7 @@ PrefabInstance:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
