@@ -7,7 +7,6 @@ namespace PuzzleBobble
 
     public class PlayerControl : MonoBehaviour
     {
-        public int playerNum = 1;
         public string axisH = "Horizontal";
         public string buttonFire = "Fire";
         public string buttonSwap = "Swap";
@@ -25,8 +24,11 @@ namespace PuzzleBobble
 
         private float currentAngle = 0;
 
+        private int player = 1;
+
         private void Start()
         {
+            player = GetComponentInParent<Side>().player;
             nextBubble = InstantiateRandomBubble();
             currentBubble = InstantiateRandomBubble();
             currentBubble.transform.position = currentBubbleRoot.transform.position;
@@ -36,13 +38,13 @@ namespace PuzzleBobble
         void Update()
         {
             // Swap ze bubble!
-            if (Input.GetButtonDown(playerNum + "-" + buttonSwap))
+            if (Input.GetButtonDown(player + "-" + buttonSwap))
             {
                 SwapBubbles();
             }
 
             // Fire ze bubble!
-            if (Input.GetButtonDown(playerNum + "-" + buttonFire))
+            if (Input.GetButtonDown(player + "-" + buttonFire))
             {
                 // TODO
                 Rigidbody2D rb = currentBubble.GetComponent<Rigidbody2D>();
@@ -70,7 +72,7 @@ namespace PuzzleBobble
 
 
             // Aiming
-            float axisVal = Input.GetAxis(playerNum + "-" + axisH);
+            float axisVal = Input.GetAxis(player + "-" + axisH);
             currentAngle += axisVal * Time.deltaTime * rotateSpeed;
             aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
         }

@@ -6,7 +6,7 @@ namespace PuzzleBobble
 {
     public class Bubble : MonoBehaviour
     {
-
+        
         public string bubbleType = "Green";
 
         BubbleRow currentGrid = null;

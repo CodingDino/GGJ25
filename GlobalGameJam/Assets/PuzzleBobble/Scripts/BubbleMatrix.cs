@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 namespace PuzzleBobble
 {
     public class BubbleMatrix : MonoBehaviour
     {
-        public int player = 1;
+        private int player = 1;
         public float startSpeed = 1f;
         public float speedIncreaseDur = 10f;
         public float speedIncreaseAmmount = 0.5f;
         public float spacing = 1f;
         public int startingRows = 8;
+        public int filledRowIndex = 15;
+        public float offset = 0.25f;
 
         private List<BubbleRow> rows = new();
 
@@ -22,19 +23,37 @@ namespace PuzzleBobble
         private float speed;
         private float lastSpeedChange = 0f;
 
+        private bool lastRowLeft = false;
+
+        private float GetRightOffset()
+        {
+            return offset;// * 0.5f;
+        }
+        private float GetLeftOffset()
+        {
+            return 0;// GetRightOffset() * - 1f;
+        }
+
         private BubbleRow SpawnNewRow(bool populate = false)
         {
             BubbleRow row = Instantiate(rowPrefab,transform);
 
             // Check what offset this should be
-            if (rows.Count > 0 && rows[rows.Count - 1].offset == 0f)
+            float offset = GetLeftOffset();
+            if (lastRowLeft)
             {
-                row.offset = 0.5f;
+                offset = GetRightOffset();
             }
+            lastRowLeft = !lastRowLeft;
 
             if (populate)
             {
                 PopulateRow(row);
+            }
+            else
+            {
+                // this will set up the row with 0 bubbles in
+                row.SpawnBubbles();
             }
 
             Vector3 pos = transform.position + spacing * Vector3.up;
@@ -42,6 +61,7 @@ namespace PuzzleBobble
             {
                 pos = rows[rows.Count-1].transform.position + spacing * Vector3.up;
             }
+            pos.x = transform.position.x+offset;
             row.transform.position = pos;
 
             rows.Add(row);
@@ -63,12 +83,14 @@ namespace PuzzleBobble
 
         private void Start()
         {
+
+            player = GetComponentInParent<Side>().player;
             speed = startSpeed;
             lastSpeedChange = Time.time;
 
             for(int i = 0;i < startingRows; i++)
             {
-                SpawnNewRow (i == startingRows - 1);
+                SpawnNewRow (i >= filledRowIndex);
             }
         }
 

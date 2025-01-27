@@ -11,7 +11,6 @@ namespace PuzzleBobble
         [HideInInspector]
         public Bubble[] bubbleSlots;
         public float spacing = 1.0f;
-        public float offset = 0f;
 
         public void AddBubble(Bubble bubble)
         {
@@ -35,19 +34,17 @@ namespace PuzzleBobble
 
         public Vector3 GetBasePos()
         {
-            return transform.position + Vector3.right * (offset - GetWidth() * 0.5f);
+            return transform.position + - Vector3.right * GetWidth() * 0.5f;
         }
 
         public Vector3 GetSlotPos(int i)
         {
-            Vector3 basePos = GetBasePos();
-            return basePos + i * spacing * Vector3.right;
+            return GetBasePos() + i * spacing * Vector3.right;
         }
 
         public int GetClosestLocationIndex(Vector3 realPos)
         {
-            Vector3 basePos = GetBasePos();
-            Vector3 closestPos = basePos;
+            Vector3 closestPos = GetBasePos();
             int closestIndex = 0;
 
             for (int i = 0; i < bubbleSlots.Length; ++i)
@@ -66,8 +63,7 @@ namespace PuzzleBobble
 
         public Vector3 GetClosestLocation(Vector3 realPos)
         {
-            Vector3 basePos = GetBasePos();
-            Vector3 closestPos = basePos;
+            Vector3 closestPos = GetBasePos();
 
             for (int i = 0; i < bubbleSlots.Length; ++i)
             {
@@ -90,7 +86,6 @@ namespace PuzzleBobble
             points[0] = new Vector2(-GetWidth() * 0.5f, 0);
             points[1] = new Vector2(GetWidth()*0.5f, 0);
             col.points = points;
-            col.offset = Vector2.right * (-spacing * 0.5f + offset);
         }
 
         [Button]
@@ -103,6 +98,7 @@ namespace PuzzleBobble
                     bubbleSlots[i].transform.position = GetSlotPos(i);
                 }
             }
+            SetUpEdgeCollider();
         }
         [Button]
         public void SpawnBubbles()
