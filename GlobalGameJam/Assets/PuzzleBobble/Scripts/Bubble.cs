@@ -9,12 +9,12 @@ namespace PuzzleBobble
 
         public string bubbleType = "Green";
 
-        BubbleGrid currentGrid = null;
+        BubbleRow currentGrid = null;
 
         private void OnTriggerEnter2D(Collider2D collision)
 
         {
-            BubbleGrid grid = collision.GetComponent<BubbleGrid>();
+            BubbleRow grid = collision.GetComponent<BubbleRow>();
             if (grid)
             {
                 currentGrid = grid;

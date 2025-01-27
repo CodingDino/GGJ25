@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace PuzzleBobble
 {
@@ -10,41 +11,52 @@ namespace PuzzleBobble
         public float speedIncreaseDur = 10f;
         public float speedIncreaseAmmount = 0.5f;
         public float spacing = 1f;
-        public int startingGrids = 0;
+        public int startingRows = 8;
 
-        private List<BubbleGrid> grids = new();
+        private List<BubbleRow> rows = new();
 
-        public BubbleGrid gridPrefab = null;
+        public BubbleRow rowPrefab = null;
         public Bubble[] possibleBubbles;
 
         private float speed;
         private float lastSpeedChange = 0f;
 
-        private BubbleGrid SpawnNewGrid(bool populate = false)
+        private BubbleRow SpawnNewRow(bool populate = false)
         {
-            BubbleGrid grid = Instantiate(gridPrefab,transform);
+            BubbleRow row = Instantiate(rowPrefab,transform);
+
+            // Check what offset this should be
+            if (rows.Count > 0 && rows[rows.Count - 1].offset == 0f)
+            {
+                row.offset = 0.5f;
+            }
 
             if (populate)
             {
-                // set up random bubbles
-                for (int i = 0; i < grid.bubblePrefabs.Length; i++)
-                {
-                    grid.bubblePrefabs[i] = possibleBubbles[Random.Range(0, possibleBubbles.Length)];
-                }
-
-                grid.SpawnBubbles();
+                PopulateRow(row);
             }
 
-            Vector3 pos = transform.position;
-            if (grids != null && grids.Count > 0)
+            Vector3 pos = transform.position + spacing * Vector3.up;
+            if (rows.Count > 0)
             {
-                pos = grids[grids.Count-1].transform.position + spacing * Vector3.up;
+                pos = rows[rows.Count-1].transform.position + spacing * Vector3.up;
             }
-            grid.transform.position = pos;
+            row.transform.position = pos;
 
-            grids.Add(grid);
+            rows.Add(row);
 
-            return grid;
+            return row;
+        }
+
+        void PopulateRow(BubbleRow row)
+        {
+            // set up random bubbles
+            for (int i = 0; i < row.bubblePrefabs.Length; i++)
+            {
+                row.bubblePrefabs[i] = possibleBubbles[Random.Range(0, possibleBubbles.Length)];
+            }
+
+            row.SpawnBubbles();
         }
 
 
@@ -53,9 +65,9 @@ namespace PuzzleBobble
             speed = startSpeed;
             lastSpeedChange = Time.time;
 
-            for(int i = 0;i < startingGrids; i++)
+            for(int i = 0;i < startingRows; i++)
             {
-                SpawnNewGrid (i == startingGrids-1);
+                SpawnNewRow (i == startingRows - 1);
             }
         }
 
@@ -63,9 +75,22 @@ namespace PuzzleBobble
         void FixedUpdate()
         {
             // Move
-            for(int i = 0; i < grids.Count; i++)
+            for(int i = 0; i < rows.Count; i++)
             {
-                grids[i].transform.Translate(Vector3.down * speed * Time.deltaTime);
+                rows[i].transform.Translate(Vector3.down * speed * Time.deltaTime);
+
+            }
+
+            // row has reached bottom, time to move up
+            if (rows[0].transform.position.y < transform.position.y)
+            {
+                // Check loss!
+
+                // Return back up
+                BubbleRow row = rows[0];
+                rows.RemoveAt(0);
+                Destroy(row.gameObject);
+                SpawnNewRow(true);
             }
 
             // Increase speed

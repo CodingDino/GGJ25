@@ -5,7 +5,7 @@ using NaughtyAttributes;
 
 namespace PuzzleBobble
 {
-    public class BubbleGrid : MonoBehaviour
+    public class BubbleRow : MonoBehaviour
     {
         public Bubble[] bubblePrefabs;
         [HideInInspector]

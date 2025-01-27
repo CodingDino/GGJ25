@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7023451687586329309}
   - component: {fileID: 8757994926355678726}
   m_Layer: 0
-  m_Name: BubbleGrid
+  m_Name: BubbleRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
