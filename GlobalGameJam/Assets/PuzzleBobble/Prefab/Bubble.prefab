@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261824485674413940}
   - component: {fileID: 7978893270568580120}
+  - component: {fileID: 8682478873122582648}
   m_Layer: 0
   m_Name: ConnectedTrigger
   m_TagString: Untagged
@@ -67,6 +68,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.75
+--- !u!114 &8682478873122582648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6239596167081650367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841c231b126008141893c729860da6dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedBubbles: []
 --- !u!1 &8896386716268614395
 GameObject:
   m_ObjectHideFlags: 0

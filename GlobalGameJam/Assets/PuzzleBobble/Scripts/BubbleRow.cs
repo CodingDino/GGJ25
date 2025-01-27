@@ -18,6 +18,15 @@ namespace PuzzleBobble
             bubbleSlots[GetClosestLocationIndex(bubble.transform.position)] = bubble;
         }
 
+        public void RemoveBubble(Bubble bubble)
+        {
+            for (int i = 0; i < bubbleSlots.Length; ++i)
+            {
+                if (bubbleSlots[i] == bubble)
+                    bubbleSlots[i] = null;
+            }
+        }
+
         public bool HasBubbles()
         {
             for (int i = 0; i < bubbleSlots.Length; i++)

@@ -8,6 +8,7 @@ namespace PuzzleBobble
     {
         
         public string bubbleType = "Green";
+        public int clearRequirement = 3;
 
         BubbleRow currentGrid = null;
 
@@ -49,10 +50,47 @@ namespace PuzzleBobble
                     // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 
                     // TODO: If the bubble grid says we are touching enough other bubbles...
-
-                    // TODO: clear bubbles
+                    List<Bubble> chain = new();
+                    chain.Add(this);
+                    GetChainBubblesOfSameType(ref chain);
+                    if (chain.Count >= clearRequirement) // TODO: might need a better way to calculate this if our aliens require higher chains!
+                    {
+                        // Clear the chain!
+                        foreach(var clearBub in chain)
+                        {
+                            clearBub.ClearBubble();
+                        }
+                    }
                 }
             }
+        }
+
+        void ClearBubble()
+        {
+            // Remove from grid
+            GetComponentInParent<BubbleRow>().RemoveBubble(this);
+
+            // TODO: Animate first
+            Destroy(gameObject);
+        }
+
+        void GetChainBubblesOfSameType(ref List<Bubble> chain)
+        {
+            List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+
+            for (int i = 0; i < connectedBubbles.Count; ++i)
+            {
+                // If the bubble is the same type and not contained in the chain already...
+                if (connectedBubbles[i].bubbleType == bubbleType && !chain.Contains(connectedBubbles[i]))
+                {
+                    // Add the conneted bubble bubble
+                    chain.Add(connectedBubbles[i]);
+
+                    // Recursively check that bubble
+                    // This is depth-first search
+                    connectedBubbles[i].GetChainBubblesOfSameType(ref chain);
+                }
+            }            
         }
 
     }
