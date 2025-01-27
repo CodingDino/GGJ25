@@ -14,6 +14,7 @@ namespace PuzzleBobble
 
         public void AddBubble(Bubble bubble)
         {
+            bubble.canBeStuckTo = true;
             bubbleSlots[GetClosestLocationIndex(bubble.transform.position)] = bubble;
         }
 
@@ -100,6 +101,7 @@ namespace PuzzleBobble
             }
             SetUpEdgeCollider();
         }
+
         [Button]
         public void SpawnBubbles()
         {
@@ -114,6 +116,7 @@ namespace PuzzleBobble
                 if (bubblePrefabs[i])
                 {
                     bubbleSlots[i] = Instantiate(bubblePrefabs[i],transform);
+                    bubbleSlots[i].canBeStuckTo = true;
                 }
             }
             AlignBubbles();

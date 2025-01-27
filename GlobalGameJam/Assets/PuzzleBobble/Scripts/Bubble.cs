@@ -11,6 +11,9 @@ namespace PuzzleBobble
 
         BubbleRow currentGrid = null;
 
+        [HideInInspector]
+        public bool canBeStuckTo = false;
+
         private void OnTriggerEnter2D(Collider2D collision)
 
         {
@@ -22,7 +25,7 @@ namespace PuzzleBobble
 
 
             Bubble otherBubble = collision.GetComponent<Bubble>();
-            if (otherBubble)
+            if (otherBubble && otherBubble.canBeStuckTo)
             {
                 // Only act if we were the moving bubble:
                 if (!GetComponent<Rigidbody2D>().isKinematic && currentGrid)
