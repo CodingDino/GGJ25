@@ -25,6 +25,8 @@ namespace PuzzleBobble
 
         private bool lastRowLeft = false;
 
+        public WinPanel win;
+
         public bool IsTopRow(BubbleRow row)
         {
             return row == rows[rows.Count - 1];
@@ -117,7 +119,8 @@ namespace PuzzleBobble
                 // Check loss!
                 if (row.HasBubbles())
                 {
-                    Debug.LogError("Player "+player+" loses!");
+                    Time.timeScale = 0;
+                    win.ShowPanel(player == 1 ? 2 : 1);
                 }
                 else
                 {
