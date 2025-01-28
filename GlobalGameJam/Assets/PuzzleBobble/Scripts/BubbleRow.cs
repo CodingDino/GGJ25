@@ -12,6 +12,11 @@ namespace PuzzleBobble
         public Bubble[] bubbleSlots;
         public float spacing = 1.0f;
 
+        public bool IsTopRow()
+        {
+            return GetComponentInParent<BubbleMatrix>().IsTopRow(this);
+        }
+
         public void AddBubble(Bubble bubble)
         {
             bubble.canBeStuckTo = true;
@@ -126,6 +131,7 @@ namespace PuzzleBobble
                 {
                     bubbleSlots[i] = Instantiate(bubblePrefabs[i],transform);
                     bubbleSlots[i].canBeStuckTo = true;
+                    bubbleSlots[i].GetComponent<Rigidbody2D>().isKinematic = true;
                 }
             }
             AlignBubbles();

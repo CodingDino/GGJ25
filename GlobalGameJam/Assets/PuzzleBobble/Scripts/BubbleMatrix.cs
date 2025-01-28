@@ -25,6 +25,11 @@ namespace PuzzleBobble
 
         private bool lastRowLeft = false;
 
+        public bool IsTopRow(BubbleRow row)
+        {
+            return row == rows[rows.Count - 1];
+        }
+
         private float GetRightOffset()
         {
             return offset * 0.5f;
