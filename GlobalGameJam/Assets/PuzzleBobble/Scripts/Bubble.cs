@@ -54,7 +54,6 @@ namespace PuzzleBobble
 
                     // If the bubble grid says we are touching enough other bubbles...
                     List<Bubble> chain = new();
-                    chain.Add(this);
                     GetChainBubblesOfSameType(ref chain);
                     if (chain.Count >= clearRequirement) // TODO: might need a better way to calculate this if our aliens require higher chains!
                     {
@@ -80,8 +79,12 @@ namespace PuzzleBobble
                                 bool hasPathToTopRow = checkFall.HasPathToTopRow(ref searched);
 
                                 // If there is no path, mark the bubble (and all connected bubbles) for deletion
-                                List<Bubble> checkFallConnected = checkFall.GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
-                                markForRemoval.AddRange(checkFallConnected);
+                                if (!hasPathToTopRow)
+                                {
+                                    List<Bubble> fallingChain = new();
+                                    checkFall.GetConnectedChain(ref fallingChain);
+                                    markForRemoval.AddRange(fallingChain);
+                                }
                             }
                         }
 
@@ -92,6 +95,20 @@ namespace PuzzleBobble
                             toRemove.ClearBubble();
                         }
                     }
+                }
+            }
+        }
+
+        void GetConnectedChain(ref List<Bubble> chain)
+        {
+            chain.Add(this);
+
+            List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+            foreach (var connectedBubble in connectedBubbles)
+            {
+                if (!chain.Contains(connectedBubble))
+                {
+                    connectedBubble.GetConnectedChain(ref chain);
                 }
             }
         }
@@ -172,6 +189,8 @@ namespace PuzzleBobble
 
         void GetChainBubblesOfSameType(ref List<Bubble> chain)
         {
+            chain.Add(this);
+
             List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
 
             for (int i = 0; i < connectedBubbles.Count; ++i)
@@ -179,9 +198,6 @@ namespace PuzzleBobble
                 // If the bubble is the same type and not contained in the chain already...
                 if (connectedBubbles[i].bubbleType == bubbleType && !chain.Contains(connectedBubbles[i]))
                 {
-                    // Add the conneted bubble bubble
-                    chain.Add(connectedBubbles[i]);
-
                     // Recursively check that bubble
                     // This is depth-first search
                     connectedBubbles[i].GetChainBubblesOfSameType(ref chain);

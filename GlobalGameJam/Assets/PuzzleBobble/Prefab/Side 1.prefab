@@ -184,7 +184,7 @@ MonoBehaviour:
   startSpeed: 0.05
   speedIncreaseDur: 10
   speedIncreaseAmmount: 0.01
-  spacing: 0.5
+  spacing: 0.4
   startingRows: 20
   filledRowIndex: 15
   offset: 0.25
@@ -407,6 +407,7 @@ MonoBehaviour:
   aimRoot: {fileID: 3745252880595273010}
   currentBubbleRoot: {fileID: 3917694445796490415}
   nextBubbleRoot: {fileID: 1442746669282062680}
+  maxAngle: 75
   firingVelocity: 10
   possibleBubbles:
   - {fileID: 4733556069862846646, guid: 0c56260f54f81284ebd74e4e2bf71560, type: 3}
