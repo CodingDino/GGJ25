@@ -8,6 +8,7 @@ namespace PuzzleBobble
     public class PlayerControl : MonoBehaviour
     {
         public string axisH = "Horizontal";
+        public string axisV = "Vertical";
         public string buttonFire = "Fire";
         public string buttonSwap = "Swap";
         public float rotateSpeed = 1.0f;
@@ -28,6 +29,16 @@ namespace PuzzleBobble
 
         private int player = 1;
 
+        public bool canFire = true;
+
+        bool IsControllerConnected(int index)
+        {
+            string[] controllers = Input.GetJoystickNames();
+            if (controllers.Length >= index && !string.IsNullOrEmpty(controllers[index]))
+                return true; // A controller is connected
+            return false; // No controller found
+        }
+
         private void Start()
         {
             player = GetComponentInParent<Side>().player;
@@ -46,8 +57,10 @@ namespace PuzzleBobble
             }
 
             // Fire ze bubble!
-            if (Input.GetButtonDown(player + "-" + buttonFire))
+            if (Input.GetButtonDown(player + "-" + buttonFire) && canFire)
             {
+                canFire = false;
+
                 // TODO
                 Rigidbody2D rb = currentBubble.GetComponent<Rigidbody2D>();
 
@@ -72,17 +85,44 @@ namespace PuzzleBobble
 
             }
 
+            if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+            {
+                Debug.Log("Player 1 fired!");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Joystick2Button0))
+            {
+                Debug.Log("Player 2 fired!");
+            }
 
             // Aiming
-            float axisVal = Input.GetAxis(player + "-" + axisH);
-            currentAngle += axisVal * Time.deltaTime * rotateSpeed;
-            currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
-            aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
+            if (IsControllerConnected(player-1))
+            {
+                Vector2 aim = new Vector2(Input.GetAxis(player + "-" + axisH), Input.GetAxis(player + "-" + axisV));
+                if (aim.sqrMagnitude > 0.1)
+                {
+                    aim = aim.normalized;
+
+                    // Determine angle
+                    currentAngle = Mathf.Rad2Deg * Mathf.Atan2(aim.y, aim.x);
+                    currentAngle -= 90f;
+                    currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
+                    aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
+                }
+            }
+            else
+            {
+                float axisVal = Input.GetAxis(player + "-" + axisH);
+                currentAngle += axisVal * Time.deltaTime * rotateSpeed;
+                currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
+                aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
+            }
         }
 
         Bubble InstantiateRandomBubble()
         {
             Bubble newBubble = Instantiate(possibleBubbles[Random.Range(0, possibleBubbles.Length)], nextBubbleRoot.position, Quaternion.identity);
+            newBubble.control = this;
             Rigidbody2D rb = newBubble.GetComponent<Rigidbody2D>();
             rb.isKinematic = true;
             Collider2D collider2D = newBubble.GetComponent<Collider2D>();

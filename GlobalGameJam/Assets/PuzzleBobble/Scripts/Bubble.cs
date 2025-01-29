@@ -18,6 +18,8 @@ namespace PuzzleBobble
 
         public bool cleared = false;
 
+        public PlayerControl control = null;
+
         private void OnTriggerEnter2D(Collider2D collision)
 
         {
@@ -35,6 +37,9 @@ namespace PuzzleBobble
                 if (!GetComponent<Rigidbody2D>().isKinematic && currentGrid)
                 {
                     Debug.Log("Collision!");
+
+                    // Tell the player they can fire again
+                    control.canFire = true;
 
                     // Make the bubble a child of the grid
                     transform.parent = currentGrid.transform;

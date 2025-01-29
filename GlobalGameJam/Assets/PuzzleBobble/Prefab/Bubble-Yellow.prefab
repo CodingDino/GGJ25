@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: bubbleType
       value: Yellow
       objectReference: {fileID: 0}
+    - target: {fileID: 72351123494979194, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1382684860951449351, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -69,6 +74,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -876546973899608171, guid: 276f3815d0098cd4b8518dea4c93fbcf,
         type: 3}
+    - target: {fileID: 7978893270568580120, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8896386716268614395, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
         type: 3}
       propertyPath: m_Name
