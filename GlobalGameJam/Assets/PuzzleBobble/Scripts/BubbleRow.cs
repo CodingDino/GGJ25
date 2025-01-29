@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using System;
 
 namespace PuzzleBobble
 {
@@ -11,16 +12,30 @@ namespace PuzzleBobble
         [HideInInspector]
         public Bubble[] bubbleSlots;
         public float spacing = 1.0f;
+        public bool offset = false;
+
+        public BubbleMatrix matrix = null;
+
+        static int bubbleNum = 0;
 
         public bool IsTopRow()
         {
             return GetComponentInParent<BubbleMatrix>().IsTopRow(this);
         }
 
-        public void AddBubble(Bubble bubble)
+        public void AddBubble(Bubble bubble, int row, int col)
         {
+            bubble.name = "Bubble " + bubbleNum + " (" + bubble.bubbleType + ")";
             bubble.canBeStuckTo = true;
-            bubbleSlots[GetClosestLocationIndex(bubble.transform.position)] = bubble;
+            bubbleSlots[col] = bubble;
+            bubble.rowCol.x = row;
+            bubble.rowCol.y = col;
+            bubble.parentRow = this;
+            bubble.canBeStuckTo = true;
+            bubble.GetComponent<Rigidbody2D>().isKinematic = true;
+            bubble.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+            ++bubbleNum;
         }
 
         public void RemoveBubble(Bubble bubble)
@@ -57,53 +72,37 @@ namespace PuzzleBobble
             return GetBasePos() + i * spacing * Vector3.right;
         }
 
-        public int GetClosestLocationIndex(Vector3 realPos)
+
+
+        public bool GetClosestValidSnapLocation(Vector3 realPos, int row, out Vector3 closestPos, out int index)
         {
-            Vector3 closestPos = GetBasePos();
-            int closestIndex = 0;
+            index = -1;
+            closestPos = Vector3.zero;
+            bool validPos = false;
 
             for (int i = 0; i < bubbleSlots.Length; ++i)
             {
                 Vector3 newPos = GetSlotPos(i);
-                if ((newPos - realPos).sqrMagnitude < (closestPos - realPos).sqrMagnitude)
+                // Only allow slots that have 
+                bool openSpace = bubbleSlots[i] == null;
+                // Only allow slots that are connected to another bubble
+                bool connected = matrix.GetConnectedBubbles(row, i).Count > 0;
+
+                if (openSpace && connected)
                 {
-                    // New closest!
-                    closestPos = newPos;
-                    closestIndex = i;
+                    if (!validPos || (newPos - realPos).sqrMagnitude < (closestPos - realPos).sqrMagnitude)
+                    {
+                        // New closest!
+                        index = i;
+                        closestPos = newPos;
+                        validPos = true;
+                    }
                 }
             }
 
-            return closestIndex;
+            return validPos;
         }
 
-        public Vector3 GetClosestLocation(Vector3 realPos)
-        {
-            Vector3 closestPos = GetBasePos();
-
-            for (int i = 0; i < bubbleSlots.Length; ++i)
-            {
-                Vector3 newPos = GetSlotPos(i);
-                if ((newPos - realPos).sqrMagnitude < (closestPos - realPos).sqrMagnitude)
-                {
-                    // New closest!
-                    closestPos = newPos;
-                }
-            }
-
-            return closestPos;
-        }
-
-        [Button]
-        public void SetUpEdgeCollider()
-        {
-            EdgeCollider2D col = GetComponent<EdgeCollider2D>();
-            Vector2[] points = col.points;
-            points[0] = new Vector2(-GetWidth() * 0.5f, 0);
-            points[1] = new Vector2( GetWidth() * 0.5f + spacing, 0);
-            col.points = points;
-        }
-
-        [Button]
         public void AlignBubbles()
         {
             for (int i = 0; i < bubbleSlots.Length; ++i)
@@ -113,11 +112,9 @@ namespace PuzzleBobble
                     bubbleSlots[i].transform.position = GetSlotPos(i);
                 }
             }
-            SetUpEdgeCollider();
         }
 
-        [Button]
-        public void SpawnBubbles()
+        public void SpawnBubbles(int row)
         {
             for (int i = 0; i < bubbleSlots.Length; ++i)
             { 
@@ -129,9 +126,7 @@ namespace PuzzleBobble
             {
                 if (bubblePrefabs[i])
                 {
-                    bubbleSlots[i] = Instantiate(bubblePrefabs[i],transform);
-                    bubbleSlots[i].canBeStuckTo = true;
-                    bubbleSlots[i].GetComponent<Rigidbody2D>().isKinematic = true;
+                    AddBubble(Instantiate(bubblePrefabs[i], transform), row, i);
                 }
             }
             AlignBubbles();
