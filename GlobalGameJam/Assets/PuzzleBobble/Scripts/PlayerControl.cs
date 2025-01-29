@@ -28,6 +28,8 @@ namespace PuzzleBobble
 
         private int player = 1;
 
+        public bool canFire = true;
+
         private void Start()
         {
             player = GetComponentInParent<Side>().player;
@@ -46,8 +48,10 @@ namespace PuzzleBobble
             }
 
             // Fire ze bubble!
-            if (Input.GetButtonDown(player + "-" + buttonFire))
+            if (Input.GetButtonDown(player + "-" + buttonFire) && canFire)
             {
+                canFire = false;
+
                 // TODO
                 Rigidbody2D rb = currentBubble.GetComponent<Rigidbody2D>();
 
@@ -83,6 +87,7 @@ namespace PuzzleBobble
         Bubble InstantiateRandomBubble()
         {
             Bubble newBubble = Instantiate(possibleBubbles[Random.Range(0, possibleBubbles.Length)], nextBubbleRoot.position, Quaternion.identity);
+            newBubble.control = this;
             Rigidbody2D rb = newBubble.GetComponent<Rigidbody2D>();
             rb.isKinematic = true;
             Collider2D collider2D = newBubble.GetComponent<Collider2D>();
