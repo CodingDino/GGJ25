@@ -67,7 +67,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.8
 --- !u!114 &8682478873122582648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841c231b126008141893c729860da6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedBubbles: []
 --- !u!1 &8896386716268614395
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +111,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4261824485674413940}
@@ -208,7 +207,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubbleType: None
+  clearRequirement: 3
   canBeStuckTo: 0
+  cleared: 0
 --- !u!58 &72351123494979194
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -243,4 +244,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5

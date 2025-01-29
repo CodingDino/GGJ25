@@ -182,13 +182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6d5c40bb14f514db44f515dbd1e9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeed: 0.05
+  startSpeed: 0.025
   speedIncreaseDur: 10
-  speedIncreaseAmmount: 0.01
-  spacing: 0.4
-  startingRows: 20
-  filledRowIndex: 15
-  offset: 0.25
+  speedIncreaseAmmount: 0.005
+  spacing: 0.7
+  startingRows: 12
+  filledRowIndex: 7
+  offset: 0.4
   rowPrefab: {fileID: 7023451687586329309, guid: ebe799df93773c2488252983d7f9e1e7,
     type: 3}
   possibleBubbles:
