@@ -195,7 +195,7 @@ namespace PuzzleBobble
             int offIndex = rows[row].offset ? +1 : -1;
 
             // Check row above
-            AddToListIfExists(row-1, col + 0, ref connected);
+            AddToListIfExists(row-1, col, ref connected);
             AddToListIfExists(row-1, col + offIndex, ref connected);
 
             // Check this row
@@ -203,7 +203,7 @@ namespace PuzzleBobble
             AddToListIfExists(row, col + 1, ref connected);
 
             // Check row below
-            AddToListIfExists(row + 1, col + 0, ref connected);
+            AddToListIfExists(row + 1, col, ref connected);
             AddToListIfExists(row + 1, col + offIndex, ref connected);
 
             return connected;
@@ -231,7 +231,50 @@ namespace PuzzleBobble
             return neighbors;
         }
 
+        public int GetRowIndex(BubbleRow row)
+        {
+            for (int i = 0; i < rows.Count; ++i)
+            {
+                if (row == rows[i])
+                    return i;
+            }
+            return -1;
+        }
 
+
+        public IEnumerator MakeOrphanBubblesFall(List<Bubble> toCheck)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            List<Bubble> markForRemoval = new();
+            foreach (var checkFall in toCheck)
+            {
+                // IF the bubble isn't already marked for deletion
+                if (!markForRemoval.Contains(checkFall) && !checkFall.cleared)
+                {
+                    // Check if there is a path to the top row ()
+                    List<Bubble> searched = new();
+                    bool hasPathToTopRow = checkFall.HasPathToTopRow(ref searched);
+
+                    // If there is no path, mark the bubble (and all connected bubbles) for deletion
+                    if (!hasPathToTopRow)
+                    {
+                        List<Bubble> fallingChain = new();
+                        checkFall.GetConnectedChain(ref fallingChain);
+                        markForRemoval.AddRange(fallingChain);
+                    }
+                }
+            }
+
+            // Remove those marked
+            foreach (var toRemove in markForRemoval)
+            {
+                // TODO: May need it's own function later
+                toRemove.ClearBubble();
+            }
+
+            yield break;
+        }
 
         public void SnapBubble(Bubble _bubble)
         {
@@ -284,7 +327,8 @@ namespace PuzzleBobble
             // TODO: Lerp instead of instant snap
 
             // Tell bubble grid that this bubble is now in place
-            rows[chosenRow].AddBubble(_bubble, chosenRow, chosenCol);
+            rows[chosenRow].AddBubble(_bubble, chosenCol);
+            // row index changes!!!! can't keep this! TODO TODO TODO
 
             // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 
