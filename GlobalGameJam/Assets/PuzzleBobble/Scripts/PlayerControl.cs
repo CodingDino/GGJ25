@@ -34,7 +34,7 @@ namespace PuzzleBobble
         bool IsControllerConnected(int index)
         {
             string[] controllers = Input.GetJoystickNames();
-            if (controllers.Length >= index && !string.IsNullOrEmpty(controllers[index]))
+            if (controllers.Length > index && !string.IsNullOrEmpty(controllers[index]))
                 return true; // A controller is connected
             return false; // No controller found
         }

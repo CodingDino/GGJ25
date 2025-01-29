@@ -9,7 +9,6 @@ namespace PuzzleBobble
     public class BubbleRow : MonoBehaviour
     {
         public Bubble[] bubblePrefabs;
-        [HideInInspector]
         public Bubble[] bubbleSlots;
         public float spacing = 1.0f;
         public bool offset = false;
@@ -23,13 +22,12 @@ namespace PuzzleBobble
             return GetComponentInParent<BubbleMatrix>().IsTopRow(this);
         }
 
-        public void AddBubble(Bubble bubble, int row, int col)
+        public void AddBubble(Bubble bubble, int col)
         {
             bubble.name = "Bubble " + bubbleNum + " (" + bubble.bubbleType + ")";
             bubble.canBeStuckTo = true;
             bubbleSlots[col] = bubble;
-            bubble.rowCol.x = row;
-            bubble.rowCol.y = col;
+            bubble.col = col;
             bubble.parentRow = this;
             bubble.canBeStuckTo = true;
             bubble.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -126,7 +124,7 @@ namespace PuzzleBobble
             {
                 if (bubblePrefabs[i])
                 {
-                    AddBubble(Instantiate(bubblePrefabs[i], transform), row, i);
+                    AddBubble(Instantiate(bubblePrefabs[i], transform), i);
                 }
             }
             AlignBubbles();

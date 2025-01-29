@@ -109,9 +109,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &-2797153592964020897
 MonoBehaviour:
@@ -130,6 +130,8 @@ MonoBehaviour:
   canBeStuckTo: 0
   cleared: 0
   control: {fileID: 0}
+  col: 0
+  parentRow: {fileID: 0}
 --- !u!58 &72351123494979194
 CircleCollider2D:
   m_ObjectHideFlags: 0

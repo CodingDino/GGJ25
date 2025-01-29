@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5099502298699517915}
   - component: {fileID: 7023451687586329309}
-  - component: {fileID: 8757994926355678726}
   m_Layer: 0
   m_Name: BubbleRow
   m_TagString: Untagged
@@ -72,47 +71,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 5669093829439933541}
   spacing: 0.8
---- !u!68 &8757994926355678726
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2407374370787185528}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.25, y: -0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -3, y: 0}
-  - {x: 3, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+  offset: 0
+  matrix: {fileID: 0}
 --- !u!1 &2632429748316018575
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +237,9 @@ MonoBehaviour:
   clearRequirement: 3
   canBeStuckTo: 0
   cleared: 0
+  control: {fileID: 0}
+  rowCol: {x: 0, y: 0}
+  parentRow: {fileID: 0}
 --- !u!1 &3935822374845644079
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,3 +404,6 @@ MonoBehaviour:
   clearRequirement: 3
   canBeStuckTo: 0
   cleared: 0
+  control: {fileID: 0}
+  rowCol: {x: 0, y: 0}
+  parentRow: {fileID: 0}

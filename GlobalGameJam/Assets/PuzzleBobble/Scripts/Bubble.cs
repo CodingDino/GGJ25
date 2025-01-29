@@ -18,7 +18,7 @@ namespace PuzzleBobble
 
         public PlayerControl control = null;
 
-        public Vector2Int rowCol = new();
+        public int col = 0;
 
         public BubbleRow parentRow = null;
 
@@ -28,78 +28,71 @@ namespace PuzzleBobble
             Bubble otherBubble = collision.GetComponent<Bubble>();
             if (otherBubble && otherBubble.canBeStuckTo)
             {
-                // Only act if we were the moving bubble:
-                if (!GetComponent<Rigidbody2D>().isKinematic)
-                {
-                    Debug.Log("Collision!");
-
-                    // Get the bubble matrix for this side
-                    BubbleMatrix[] matrices = FindObjectsByType<BubbleMatrix>(FindObjectsSortMode.None);
-                    BubbleMatrix matrix = matrices[0];
-                    if ((matrices[1].transform.position-transform.position).sqrMagnitude < (matrices[0].transform.position - transform.position).sqrMagnitude)
-                    {
-                        matrix = matrices[1];
-                    }
-
-                    // Snap the bubble in place
-                    matrix.SnapBubble(this);
-
-                    // Tell the player they can fire again
-                    control.canFire = true;
-
-
-                    // If the bubble grid says we are touching enough other bubbles...
-                    List<Bubble> chain = new();
-                    GetChainBubblesOfSameType(ref chain);
-                    if (chain.Count >= clearRequirement) // TODO: might need a better way to calculate this if our aliens require higher chains!
-                    {
-                        // Will need to check every bubble connected to the chain of bubbles that is being removed
-                        List<Bubble> toCheckForRemoval = GetConnectedBubblesForGroup(chain);
-
-                        // Clear the chain!
-                        foreach (var clearBub in chain)
-                        {
-                            clearBub.ClearBubble();
-                        }
-
-                        // Check if clearing this chain has caused other bubbles to fall
-                        // Check every bubble connected to the chain of bubbles that is being removed
-                        List<Bubble> markForRemoval = new();
-                        foreach(var checkFall in toCheckForRemoval)
-                        {
-                            // IF the bubble isn't already marked for deletion
-                            if (!markForRemoval.Contains(checkFall) && !checkFall.cleared)
-                            {
-                                // Check if there is a path to the top row ()
-                                List<Bubble> searched = new();
-                                bool hasPathToTopRow = checkFall.HasPathToTopRow(ref searched);
-
-                                // If there is no path, mark the bubble (and all connected bubbles) for deletion
-                                if (!hasPathToTopRow)
-                                {
-                                    List<Bubble> fallingChain = new();
-                                    checkFall.GetConnectedChain(ref fallingChain);
-                                    markForRemoval.AddRange(fallingChain);
-                                }
-                            }
-                        }
-
-                        // Remove those marked
-                        foreach (var toRemove in markForRemoval)
-                        {
-                            // TODO: May need it's own function later
-                            toRemove.ClearBubble();
-                        }
-                    }
-                }
+                StartCoroutine(BubbleCollision());
             }
         }
 
-        void GetConnectedChain(ref List<Bubble> chain)
+        private IEnumerator BubbleCollision()
+        {
+            // Only act if we were the moving bubble:
+            if (!GetComponent<Rigidbody2D>().isKinematic)
+            {
+                Debug.Log("Collision!");
+
+                // Get the bubble matrix for this side
+                BubbleMatrix[] matrices = FindObjectsByType<BubbleMatrix>(FindObjectsSortMode.None);
+                BubbleMatrix matrix = matrices[0];
+                if ((matrices[1].transform.position - transform.position).sqrMagnitude < (matrices[0].transform.position - transform.position).sqrMagnitude)
+                {
+                    matrix = matrices[1];
+                }
+
+                // Snap the bubble in place
+                matrix.SnapBubble(this);
+
+
+                // If the bubble grid says we are touching enough other bubbles...
+                List<Bubble> chain = new();
+                GetChainBubblesOfSameType(ref chain);
+                if (chain.Count >= clearRequirement) // TODO: might need a better way to calculate this if our aliens require higher chains!
+                {
+                    // Wait a moment for the tween to end
+                    yield return new WaitForSeconds(0.2f);
+
+                    // Will need to check every bubble connected to the chain of bubbles that is being removed
+                    List<Bubble> toCheckForRemoval = GetConnectedBubblesForGroup(chain);
+
+                    // Clear the chain!
+                    foreach (var clearBub in chain)
+                    {
+                        clearBub.ClearBubble();
+                    }
+
+                    // Tell the player they can fire again
+                    // TODO: Maybe make this a coroutine on the player, as if we do it here it will be canceled when this object is destroyed.
+                    control.canFire = true;
+
+                    // Check if clearing this chain has caused other bubbles to fall
+                    // Check every bubble connected to the chain of bubbles that is being removed
+                    // Note; has delay for effect
+                    parentRow.matrix.StartCoroutine(parentRow.matrix.MakeOrphanBubblesFall(toCheckForRemoval));
+                }
+
+                // Tell the player they can fire again
+                // TODO: Maybe make this a coroutine on the player, as if we do it here it will be canceled when this object is destroyed.
+                control.canFire = true;
+
+                yield break;
+            }
+        }
+
+        public void GetConnectedChain(ref List<Bubble> chain)
         {
             chain.Add(this);
 
-            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
+            int rowIndex = parentRow.matrix.GetRowIndex(parentRow);
+
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowIndex, col);
             foreach (var connectedBubble in connectedBubbles)
             {
                 if (!chain.Contains(connectedBubble))
@@ -109,7 +102,7 @@ namespace PuzzleBobble
             }
         }
 
-        void ClearBubble()
+        public void ClearBubble()
         {
             cleared = true;
 
@@ -125,7 +118,7 @@ namespace PuzzleBobble
             return GetComponentInParent<BubbleRow>().IsTopRow();
         }
 
-        bool HasPathToTopRow(ref List<Bubble> searched)
+        public bool HasPathToTopRow(ref List<Bubble> searched)
         {
             // We will return true if a root has been found
             bool rootFound = false;
@@ -145,7 +138,9 @@ namespace PuzzleBobble
             {
                 Debug.LogError("not initialised correctly");
             }
-            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
+
+            int rowIndex = parentRow.matrix.GetRowIndex(parentRow);
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowIndex, col);
 
             // Sort by bubble with the highest y value
             // comparing b to a sorts in descending order
@@ -176,7 +171,8 @@ namespace PuzzleBobble
             List<Bubble> connectedBubbles = new();
             foreach (var groupBubble in group)
             {
-                List<Bubble> currentConnectedBubbles = groupBubble.parentRow.matrix.GetConnectedBubbles(groupBubble.rowCol.x, groupBubble.rowCol.y);
+                int rowIndex = parentRow.matrix.GetRowIndex(groupBubble.parentRow);
+                List<Bubble> currentConnectedBubbles = groupBubble.parentRow.matrix.GetConnectedBubbles(rowIndex, groupBubble.col);
                 foreach (var currentBubble in currentConnectedBubbles)
                 {
                     if (!connectedBubbles.Contains(currentBubble) && !group.Contains(currentBubble))
@@ -191,7 +187,8 @@ namespace PuzzleBobble
         List<Bubble> GetConnectedBubbles()
         {
             List<Bubble> connectedBubbles = new();
-            List<Bubble> currentConnectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
+            int rowIndex = parentRow.matrix.GetRowIndex(parentRow);
+            List<Bubble> currentConnectedBubbles = parentRow.matrix.GetConnectedBubbles(rowIndex, col);
             foreach (var currentBubble in currentConnectedBubbles)
             {
                 if (!connectedBubbles.Contains(currentBubble))
@@ -209,7 +206,8 @@ namespace PuzzleBobble
             {
                 Debug.LogError("not initialised correctly");
             }
-            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
+            int rowIndex = parentRow.matrix.GetRowIndex(parentRow);
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowIndex, col);
 
             for (int i = 0; i < connectedBubbles.Count; ++i)
             {
