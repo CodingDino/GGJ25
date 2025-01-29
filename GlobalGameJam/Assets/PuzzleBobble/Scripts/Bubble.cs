@@ -11,8 +11,6 @@ namespace PuzzleBobble
         public string bubbleType = "Green";
         public int clearRequirement = 3;
 
-        BubbleRow currentGrid = null;
-
         [HideInInspector]
         public bool canBeStuckTo = false;
 
@@ -20,42 +18,35 @@ namespace PuzzleBobble
 
         public PlayerControl control = null;
 
+        public Vector2Int rowCol = new();
+
+        public BubbleRow parentRow = null;
+
+
         private void OnTriggerEnter2D(Collider2D collision)
-
         {
-            BubbleRow grid = collision.GetComponent<BubbleRow>();
-            if (grid)
-            {
-                currentGrid = grid;
-            }
-
-
             Bubble otherBubble = collision.GetComponent<Bubble>();
             if (otherBubble && otherBubble.canBeStuckTo)
             {
                 // Only act if we were the moving bubble:
-                if (!GetComponent<Rigidbody2D>().isKinematic && currentGrid)
+                if (!GetComponent<Rigidbody2D>().isKinematic)
                 {
                     Debug.Log("Collision!");
+
+                    // Get the bubble matrix for this side
+                    BubbleMatrix[] matrices = FindObjectsByType<BubbleMatrix>(FindObjectsSortMode.None);
+                    BubbleMatrix matrix = matrices[0];
+                    if ((matrices[1].transform.position-transform.position).sqrMagnitude < (matrices[0].transform.position - transform.position).sqrMagnitude)
+                    {
+                        matrix = matrices[1];
+                    }
+
+                    // Snap the bubble in place
+                    matrix.SnapBubble(this);
 
                     // Tell the player they can fire again
                     control.canFire = true;
 
-                    // Make the bubble a child of the grid
-                    transform.parent = currentGrid.transform;
-
-                    // turn off rigidbody motion
-                    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    GetComponent<Rigidbody2D>().isKinematic = true;
-                    // Find correct place in grid and go to it
-                    Vector3 targetPos = currentGrid.GetClosestLocation(transform.position);
-                    transform.position = targetPos;
-                    // TODO: Lerp instead of instant snap
-
-                    // Tell bubble grid that this bubble is now in place
-                    currentGrid.AddBubble(this);
-
-                    // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 
                     // If the bubble grid says we are touching enough other bubbles...
                     List<Bubble> chain = new();
@@ -108,7 +99,7 @@ namespace PuzzleBobble
         {
             chain.Add(this);
 
-            List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
             foreach (var connectedBubble in connectedBubbles)
             {
                 if (!chain.Contains(connectedBubble))
@@ -150,7 +141,11 @@ namespace PuzzleBobble
             // If not, we need to check the bubbles we're connected to to try and find a path
 
             // Get bubbles connected to this one
-            List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+            if(!parentRow || !parentRow.matrix)
+            {
+                Debug.LogError("not initialised correctly");
+            }
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
 
             // Sort by bubble with the highest y value
             // comparing b to a sorts in descending order
@@ -181,7 +176,7 @@ namespace PuzzleBobble
             List<Bubble> connectedBubbles = new();
             foreach (var groupBubble in group)
             {
-                List<Bubble> currentConnectedBubbles = groupBubble.GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+                List<Bubble> currentConnectedBubbles = groupBubble.parentRow.matrix.GetConnectedBubbles(groupBubble.rowCol.x, groupBubble.rowCol.y);
                 foreach (var currentBubble in currentConnectedBubbles)
                 {
                     if (!connectedBubbles.Contains(currentBubble) && !group.Contains(currentBubble))
@@ -192,11 +187,29 @@ namespace PuzzleBobble
             return connectedBubbles;
         }
 
+
+        List<Bubble> GetConnectedBubbles()
+        {
+            List<Bubble> connectedBubbles = new();
+            List<Bubble> currentConnectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
+            foreach (var currentBubble in currentConnectedBubbles)
+            {
+                if (!connectedBubbles.Contains(currentBubble))
+                    connectedBubbles.Add(currentBubble);
+            }
+
+            return connectedBubbles;
+        }
+
         void GetChainBubblesOfSameType(ref List<Bubble> chain)
         {
             chain.Add(this);
 
-            List<Bubble> connectedBubbles = GetComponentInChildren<BubbleConnections>().GetConnectedBubbles();
+            if (!parentRow || !parentRow.matrix)
+            {
+                Debug.LogError("not initialised correctly");
+            }
+            List<Bubble> connectedBubbles = parentRow.matrix.GetConnectedBubbles(rowCol.x, rowCol.y);
 
             for (int i = 0; i < connectedBubbles.Count; ++i)
             {
