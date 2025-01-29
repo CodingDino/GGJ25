@@ -164,7 +164,7 @@ Transform:
   m_GameObject: {fileID: 5061554991017274676}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalPosition: {x: 0, y: -2.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305,7 +305,7 @@ MonoBehaviour:
   currentBubbleRoot: {fileID: 3745252880595273010}
   nextBubbleRoot: {fileID: 1442746669282062680}
   maxAngle: 75
-  firingVelocity: 10
+  firingVelocity: 15
   possibleBubbles:
   - {fileID: 4733556069862846646, guid: 0c56260f54f81284ebd74e4e2bf71560, type: 3}
   - {fileID: 4733556069862846646, guid: 917de3fe45a44a14eb0a38291446ba4d, type: 3}
