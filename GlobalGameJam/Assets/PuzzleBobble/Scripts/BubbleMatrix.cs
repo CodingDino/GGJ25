@@ -350,7 +350,7 @@ namespace PuzzleBobble
 
             // turn off rigidbody motion
             // Find correct place in grid and go to it
-            float overshootTime = 0.005f;
+            float overshootTime = 0.05f;
             float arcTime = 0.05f;
             Rigidbody2D rb = _bubble.GetComponent<Rigidbody2D>();
             Vector3 overshootPos = _bubble.transform.position+new Vector3(rb.velocity.x * overshootTime, rb.velocity.y * overshootTime, 0);
@@ -368,7 +368,7 @@ namespace PuzzleBobble
                             newPos.x = val; // Update only the x position
                             _bubble.transform.position = newPos;
                         })
-                        .setEase(LeanTweenType.linear);
+                        .setEase(LeanTweenType.easeOutBack);
 
                     // Tween the y position with ease-in-out quadratic easing after the first move is complete
                     LeanTween.value(_bubble.gameObject, overshootPos.y, chosenPos.y, arcTime)
@@ -378,7 +378,7 @@ namespace PuzzleBobble
                             newPos.y = val; // Update only the y position
                             _bubble.transform.position = newPos;
                         })
-                        .setEase(LeanTweenType.easeInOutQuad)
+                        .setEase(LeanTweenType.easeOutBack)
                         .setOnComplete(() =>
                         {
                             // HERE, trigger further effects
