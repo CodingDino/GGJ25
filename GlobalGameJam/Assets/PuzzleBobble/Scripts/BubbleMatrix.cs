@@ -46,6 +46,8 @@ namespace PuzzleBobble
 
         public AlienMeter opponentMeter;
 
+        public AudioSource[] alienSFX = null;
+
         public bool IsTopRow(BubbleRow row)
         {
             return row == rows[rows.Count - 1];
@@ -498,6 +500,11 @@ namespace PuzzleBobble
                     SpawnMonsterPart(row, chosenMonster.row4offset[i], colI + i);
                 }
             }
+
+            // SFX
+            int randSFXi = Random.Range(0, alienSFX.Length);
+            alienSFX[randSFXi].pitch = Random.Range(0.5f, 2f);
+            alienSFX[randSFXi].Play();
         }
 
         public void SpawnMonsterPart(BubbleRow _row, Bubble _monsterPart, int _col)

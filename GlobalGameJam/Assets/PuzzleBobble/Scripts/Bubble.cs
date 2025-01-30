@@ -27,9 +27,13 @@ namespace PuzzleBobble
 
         public VisualEffect popVFX = null;
 
+        public AudioSource popSFX = null;
+
         [HideInInspector]
         public float ogScale = 1f;
         public float shipScale = 0.3f;
+
+        public AudioSource bounceSFX = null;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -60,6 +64,11 @@ namespace PuzzleBobble
                 {
                     matrix = matrices[1];
                 }
+
+                // SFX
+
+                bounceSFX.pitch = Random.Range(0.9f, 1.1f);
+                bounceSFX.Play();
 
                 // Snap the bubble in place
                 matrix.SnapBubble(this);
@@ -167,6 +176,10 @@ namespace PuzzleBobble
             {
                 // Play particle effect
                 popVFX.Play();
+
+                // Sound
+                popSFX.pitch = Random.Range(0.9f, 1.1f);
+                popSFX.Play();
 
                 LeanTween.scale(gameObject, Vector3.zero, 0.2f)
                     .setEase(LeanTweenType.easeInQuad).setOnComplete(() =>

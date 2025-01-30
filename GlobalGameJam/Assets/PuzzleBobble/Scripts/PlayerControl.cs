@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace PuzzleBobble
 {
@@ -33,6 +34,14 @@ namespace PuzzleBobble
 
         public bool canFire = true;
 
+        public Animator canonAnim = null;
+
+        public AudioSource canonSFX = null;
+
+        public VisualEffect canonVFX = null;
+
+        public AudioSource turningSFX = null;
+
         bool IsControllerConnected(int index)
         {
             string[] controllers = Input.GetJoystickNames();
@@ -61,6 +70,14 @@ namespace PuzzleBobble
             // Fire ze bubble!
             if (Input.GetButtonDown(player + "-" + buttonFire) && canFire)
             {
+                canonAnim.SetTrigger("Fire");
+
+                canonSFX.pitch = Random.Range(0.9f, 1.1f);
+                canonSFX.Play();
+
+                if (canonVFX)
+                    canonVFX.Play();
+
                 canFire = false;
 
                 // TODO
@@ -93,21 +110,11 @@ namespace PuzzleBobble
 
             }
 
-            if (Input.GetKeyDown(KeyCode.Joystick1Button0))
-            {
-                Debug.Log("Player 1 fired!");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Joystick2Button0))
-            {
-                Debug.Log("Player 2 fired!");
-            }
-
             // Aiming
             if (IsControllerConnected(player-1))
             {
                 Vector2 aim = new Vector2(Input.GetAxis(player + "-" + axisH), Input.GetAxis(player + "-" + axisV));
-                if (aim.sqrMagnitude > 0.1)
+                if (aim.sqrMagnitude > 0.1f)
                 {
                     aim = aim.normalized;
 
@@ -116,14 +123,29 @@ namespace PuzzleBobble
                     currentAngle -= 90f;
                     currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
                     aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
+
+                    if (!turningSFX.isPlaying)
+                        turningSFX.Play();
                 }
+                else
+                    turningSFX.Pause();
             }
             else
             {
+
                 float axisVal = Input.GetAxis(player + "-" + axisH);
                 currentAngle += axisVal * Time.deltaTime * rotateSpeed;
                 currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
                 aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
+
+                if (Mathf.Abs(axisVal) >= 0.1f)
+                {
+                    if (!turningSFX.isPlaying)
+                        turningSFX.Play();
+                }
+                else
+                    turningSFX.Pause();
+
             }
         }
 
