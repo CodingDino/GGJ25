@@ -202,15 +202,32 @@ MonoBehaviour:
   win: {fileID: 0}
   monsters:
   - row1:
-    - {fileID: 6122170092895302486, guid: 69213f5282e5ff942b7a8b84991283de, type: 3}
+    - {fileID: 0}
     - {fileID: 5820378248763218191, guid: 3a33244764d45404fba10ee0b597f64d, type: 3}
+    - {fileID: 7214529337154613002, guid: ebb20d7984f1c904daa147e4c0600af5, type: 3}
     - {fileID: 5820378248763218191, guid: 3a33244764d45404fba10ee0b597f64d, type: 3}
+    row2offset:
     - {fileID: 6122170092895302486, guid: 69213f5282e5ff942b7a8b84991283de, type: 3}
-    row2offset: []
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 6122170092895302486, guid: 3e4921d7fe1c9df4b9036a254e2556a6, type: 3}
+    row3: []
+    row4offset: []
+  - row1:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    row2offset:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     row3: []
     row4offset: []
   minMonsterSpawn: 5
   maxMonsterSpawn: 10
+  opponentMeter: {fileID: 0}
 --- !u!1 &5825009387904545187
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 8426842758014871263}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.32, y: 0, z: 0}
+  m_LocalPosition: {x: 1.32, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -620,7 +637,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ecb6e146a929e664fa0a581ad49df799,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.32
+      value: 1.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecb6e146a929e664fa0a581ad49df799,
         type: 3}

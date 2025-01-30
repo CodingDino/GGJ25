@@ -437,8 +437,7 @@ namespace PuzzleBobble
             if (row.offset)
                 return false;
 
-
-            // Check that each part of the monster is within bounds
+            // Get the first index of the monster with something in it
             int firstRowIndex = 0;
             for (int i = 0; i < _monster.row1.Length; ++i)
             {
@@ -448,6 +447,12 @@ namespace PuzzleBobble
                     break;
                 }
             }
+
+            // First item is out of bounds
+            if (colI + firstRowIndex >= row.bubbleSlots.Length)
+                return false;
+
+            // Check that each part of the monster is within bounds
 
             // Check row1 col1 location contains a bubble and is connected to the top
             List<Bubble> topSearch = new();
