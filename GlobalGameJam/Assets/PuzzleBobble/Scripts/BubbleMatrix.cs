@@ -353,6 +353,7 @@ namespace PuzzleBobble
             float overshootTime = 0.05f;
             float arcTime = 0.05f;
             Rigidbody2D rb = _bubble.GetComponent<Rigidbody2D>();
+            Vector3 moveDir = rb.velocity.normalized;
             Vector3 overshootPos = _bubble.transform.position+new Vector3(rb.velocity.x * overshootTime, rb.velocity.y * overshootTime, 0);
 
             // First move: linear move for both x and y
@@ -360,24 +361,7 @@ namespace PuzzleBobble
                 .setEase(LeanTweenType.linear)
                 .setOnComplete(() =>
                 {
-                    // Tween the x position with linear easing after the first move is complete
-                    LeanTween.value(_bubble.gameObject, overshootPos.x, chosenPos.x, arcTime)
-                        .setOnUpdate((float val) =>
-                        {
-                            Vector3 newPos = _bubble.transform.position;
-                            newPos.x = val; // Update only the x position
-                            _bubble.transform.position = newPos;
-                        })
-                        .setEase(LeanTweenType.easeOutBack);
-
-                    // Tween the y position with ease-in-out quadratic easing after the first move is complete
-                    LeanTween.value(_bubble.gameObject, overshootPos.y, chosenPos.y, arcTime)
-                        .setOnUpdate((float val) =>
-                        {
-                            Vector3 newPos = _bubble.transform.position;
-                            newPos.y = val; // Update only the y position
-                            _bubble.transform.position = newPos;
-                        })
+                    LeanTween.move(_bubble.gameObject, chosenPos, arcTime)
                         .setEase(LeanTweenType.easeOutBack)
                         .setOnComplete(() =>
                         {
@@ -390,8 +374,70 @@ namespace PuzzleBobble
             // Tell bubble grid that this bubble is now in place
             rows[chosenRow].AddBubble(_bubble, chosenCol);
 
-            // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
+            // Bubble ripple
+            List<Bubble> neighbors1 = GetConnectedBubbles(chosenRow,chosenCol);
+            List<Bubble> neighbors2 = new();
+            List<Bubble> neighbors3 = new();
+            foreach (Bubble b in neighbors1)
+            {
+                List<Bubble> sub_neighbors = GetConnectedBubbles(GetRowIndex(b.parentRow),b.col);
+                foreach(Bubble potential in sub_neighbors)
+                {
+                    if (!neighbors1.Contains(potential) && !neighbors2.Contains(potential))
+                        neighbors2.Add(potential);
+                }
+            }
+            foreach (Bubble b in neighbors2)
+            {
+                List<Bubble> sub_neighbors = GetConnectedBubbles(GetRowIndex(b.parentRow), b.col);
+                foreach (Bubble potential in sub_neighbors)
+                {
+                    if (!neighbors1.Contains(potential) && !neighbors2.Contains(potential) && !neighbors3.Contains(potential))
+                        neighbors3.Add(potential);
+                }
+            }
 
+
+            // Move all bubbles, with neighbors 3 going farthest
+            float dist = 0.5f;
+            foreach(Bubble b in neighbors1)
+            {
+                Vector3 bMove = b.transform.position + moveDir * dist;
+                Vector3 bEnd = b.transform.position;
+                LeanTween.move(b.gameObject, bMove, overshootTime)
+                    .setEase(LeanTweenType.linear)
+                    .setOnComplete(() =>
+                    {
+                        LeanTween.move(b.gameObject, bEnd, arcTime)
+                            .setEase(LeanTweenType.easeOutBack);
+                    });
+            }
+            dist = 0.2f;
+            foreach (Bubble b in neighbors2)
+            {
+                Vector3 bMove = b.transform.position + moveDir * dist;
+                Vector3 bEnd = b.transform.position;
+                LeanTween.move(b.gameObject, bMove, overshootTime)
+                    .setEase(LeanTweenType.linear)
+                    .setOnComplete(() =>
+                    {
+                        LeanTween.move(b.gameObject, bEnd, arcTime)
+                            .setEase(LeanTweenType.easeOutBack);
+                    });
+            }
+            dist = 0.1f;
+            foreach (Bubble b in neighbors3)
+            {
+                Vector3 bMove = b.transform.position + moveDir * dist;
+                Vector3 bEnd = b.transform.position;
+                LeanTween.move(b.gameObject, bMove, overshootTime)
+                    .setEase(LeanTweenType.linear)
+                    .setOnComplete(() =>
+                    {
+                        LeanTween.move(b.gameObject, bEnd, arcTime)
+                            .setEase(LeanTweenType.easeOutBack);
+                    });
+            }
         }
 
         [Button]
