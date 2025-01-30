@@ -25,6 +25,7 @@ namespace PuzzleBobble
         public int startingRows = 8;
         public int filledRowIndex = 15;
         public float offset = 0.25f;
+        
 
         private List<BubbleRow> rows = new();
 

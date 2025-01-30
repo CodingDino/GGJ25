@@ -27,6 +27,9 @@ namespace PuzzleBobble
 
         public VisualEffect popVFX = null;
 
+        [HideInInspector]
+        public float ogScale = 1f;
+        public float shipScale = 0.3f;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -35,6 +38,12 @@ namespace PuzzleBobble
             {
                 StartCoroutine(BubbleCollision());
             }
+        }
+
+        public void SetOnShip()
+        {
+            ogScale = transform.localScale.x;
+            transform.localScale = Vector3.one * shipScale;
         }
 
         private IEnumerator BubbleCollision()

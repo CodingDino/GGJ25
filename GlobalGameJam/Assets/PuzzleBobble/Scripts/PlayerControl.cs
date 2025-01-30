@@ -25,6 +25,8 @@ namespace PuzzleBobble
         private Bubble nextBubble;
 
         private float currentAngle = 0;
+
+        public Transform firingPoint = null;
         
 
         private int player = 1;
@@ -72,10 +74,16 @@ namespace PuzzleBobble
                 // Calculate vector in direction aimed
                 Vector2 rotatedVector = aimRoot.rotation * Vector2.up;
 
+                // Set the bubble location
+                currentBubble.transform.position = firingPoint.transform.position;
+
                 // Shoot the bubble!
                 rb.velocity = rotatedVector * firingVelocity;
 
-                // TODO: Cooldown to avoid rapid fire (or does that matter?)
+                // Tween the size
+
+                LeanTween.scale(currentBubble.gameObject, currentBubble.ogScale * Vector3.one, 0.1f)
+                .setEase(LeanTweenType.easeInBack);
 
                 // Load next bubble
                 currentBubble = nextBubble;
@@ -123,6 +131,7 @@ namespace PuzzleBobble
         {
             Bubble newBubble = Instantiate(possibleBubbles[Random.Range(0, possibleBubbles.Length)], nextBubbleRoot.position, Quaternion.identity);
             newBubble.control = this;
+            newBubble.SetOnShip();
             Rigidbody2D rb = newBubble.GetComponent<Rigidbody2D>();
             rb.isKinematic = true;
             Collider2D collider2D = newBubble.GetComponent<Collider2D>();
