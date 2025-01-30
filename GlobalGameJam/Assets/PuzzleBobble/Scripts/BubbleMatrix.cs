@@ -350,12 +350,45 @@ namespace PuzzleBobble
 
             // turn off rigidbody motion
             // Find correct place in grid and go to it
-            _bubble.transform.position = chosenPos;
-            // TODO: Lerp instead of instant snap
+            float overshootTime = 0.005f;
+            float arcTime = 0.05f;
+            Rigidbody2D rb = _bubble.GetComponent<Rigidbody2D>();
+            Vector3 overshootPos = _bubble.transform.position+new Vector3(rb.velocity.x * overshootTime, rb.velocity.y * overshootTime, 0);
+
+            // First move: linear move for both x and y
+            LeanTween.move(_bubble.gameObject, overshootPos, overshootTime)
+                .setEase(LeanTweenType.linear)
+                .setOnComplete(() =>
+                {
+                    // Tween the x position with linear easing after the first move is complete
+                    LeanTween.value(_bubble.gameObject, overshootPos.x, chosenPos.x, arcTime)
+                        .setOnUpdate((float val) =>
+                        {
+                            Vector3 newPos = _bubble.transform.position;
+                            newPos.x = val; // Update only the x position
+                            _bubble.transform.position = newPos;
+                        })
+                        .setEase(LeanTweenType.linear);
+
+                    // Tween the y position with ease-in-out quadratic easing after the first move is complete
+                    LeanTween.value(_bubble.gameObject, overshootPos.y, chosenPos.y, arcTime)
+                        .setOnUpdate((float val) =>
+                        {
+                            Vector3 newPos = _bubble.transform.position;
+                            newPos.y = val; // Update only the y position
+                            _bubble.transform.position = newPos;
+                        })
+                        .setEase(LeanTweenType.easeInOutQuad)
+                        .setOnComplete(() =>
+                        {
+                            // HERE, trigger further effects
+                            _bubble.transform.position = chosenPos;
+                        });
+                });
+
 
             // Tell bubble grid that this bubble is now in place
             rows[chosenRow].AddBubble(_bubble, chosenCol);
-            // row index changes!!!! can't keep this! TODO TODO TODO
 
             // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 
