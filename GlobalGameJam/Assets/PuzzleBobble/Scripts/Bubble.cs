@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace PuzzleBobble
 {
@@ -23,6 +24,8 @@ namespace PuzzleBobble
         public BubbleRow parentRow = null;
 
         public bool monster = false;
+
+        public VisualEffect popVFX = null;
 
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -129,15 +132,31 @@ namespace PuzzleBobble
             }
         }
 
-        public void ClearBubble()
+        public void ClearBubble(float delay = 0f)
         {
             cleared = true;
 
             // Remove from grid
             GetComponentInParent<BubbleRow>().RemoveBubble(this);
 
-            // TODO: Animate first
-            Destroy(gameObject);
+            // Delay
+            // grow out and then shrink
+            LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.1f).setDelay(delay)
+            .setEase(LeanTweenType.easeOutQuad) 
+            .setOnComplete(() =>
+            {
+                // Play particle effect
+                popVFX.Play();
+
+                LeanTween.scale(gameObject, Vector3.zero, 0.2f)
+                    .setEase(LeanTweenType.easeInQuad).setOnComplete(() =>
+                    {
+
+                        // Destroy when done
+                        Destroy(gameObject);
+
+                    });
+            });
         }
 
         bool IsInTopRow()

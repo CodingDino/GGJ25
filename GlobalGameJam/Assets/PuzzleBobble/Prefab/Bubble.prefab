@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6439950353950971465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7811847322439413948
@@ -133,6 +134,7 @@ MonoBehaviour:
   col: 0
   parentRow: {fileID: 0}
   monster: 0
+  popVFX: {fileID: 6680468595859646319}
 --- !u!58 &72351123494979194
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -168,3 +170,93 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1001 &6737333564523758765
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1382684860951449351}
+    m_Modifications:
+    - target: {fileID: 128946210829280194, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_InitialEventName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 128946210829280194, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170975466050915213, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+        type: 3}
+      propertyPath: m_Name
+      value: BubblePopEffect
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e12c72a648b22a9438db4ff1fa2d2ec2, type: 3}
+--- !u!4 &6439950353950971465 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 297410835807425252, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6737333564523758765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &6680468595859646319 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 128946210829280194, guid: e12c72a648b22a9438db4ff1fa2d2ec2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6737333564523758765}
+  m_PrefabAsset: {fileID: 0}

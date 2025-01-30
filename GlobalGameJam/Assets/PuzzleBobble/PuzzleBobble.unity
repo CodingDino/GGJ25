@@ -2487,6 +2487,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ElectricWall
       objectReference: {fileID: 0}
+    - target: {fileID: 1303537699583138397, guid: 0a398a68c85e2124997b6519b6bd9181,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807469161647721318, guid: 0a398a68c85e2124997b6519b6bd9181,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4038963459413794885, guid: 0a398a68c85e2124997b6519b6bd9181,
         type: 3}
       propertyPath: m_Asset
