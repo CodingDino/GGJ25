@@ -62,17 +62,28 @@ namespace PuzzleBobble
                 if (chain.Count >= clearRequirement) // TODO: might need a better way to calculate this if our aliens require higher chains!
                 {
                     // Wait a moment for the tween to end
-                    yield return new WaitForSeconds(0.2f);
+                    yield return new WaitForSeconds(0.1f);
 
                     // Will need to check every bubble connected to the chain of bubbles that is being removed
                     List<Bubble> toCheckForRemoval = GetConnectedBubblesForGroup(chain);
 
+                    // order chain by distance from this bubble
+                    chain.Sort((a, b) =>
+                    {
+                        float aDist = (a.transform.position - transform.position).sqrMagnitude;
+                        float bDist = (b.transform.position - transform.position).sqrMagnitude;
+
+                        return aDist.CompareTo(bDist);
+                    });
+
                     // Clear the chain!
+                    float delay = 0f;
+                    float delayAdd = 0.1f;
                     foreach (var clearBub in chain)
                     {
                         clearBub.parentRow.matrix.AddPoints(2);
-                        clearBub.ClearBubble();
-
+                        clearBub.ClearBubble(delay);
+                        delay += delayAdd;
                     }
 
                     // Clear monster parts that were near the bubbles

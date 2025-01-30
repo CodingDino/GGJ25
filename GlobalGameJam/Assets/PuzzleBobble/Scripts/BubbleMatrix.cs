@@ -269,7 +269,7 @@ namespace PuzzleBobble
 
         public IEnumerator MakeOrphanBubblesFall(List<Bubble> toCheck)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.5f);
 
             List<Bubble> markForRemoval = new();
             foreach (var checkFall in toCheck)
