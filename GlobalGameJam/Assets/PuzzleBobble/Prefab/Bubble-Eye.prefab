@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 8551916188208637170, guid: 69213f5282e5ff942b7a8b84991283de,
         type: 3}
       propertyPath: m_Name
-      value: Bubble-Eye Variant
+      value: Bubble-Eye
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
