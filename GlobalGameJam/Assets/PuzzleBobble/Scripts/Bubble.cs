@@ -65,7 +65,9 @@ namespace PuzzleBobble
                     // Clear the chain!
                     foreach (var clearBub in chain)
                     {
+                        clearBub.parentRow.matrix.AddPoints(2);
                         clearBub.ClearBubble();
+
                     }
 
                     // Tell the player they can fire again

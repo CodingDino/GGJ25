@@ -44,6 +44,8 @@ namespace PuzzleBobble
         public int minMonsterSpawn = 5;
         public int maxMonsterSpawn = 10;
 
+        public AlienMeter opponentMeter;
+
         public bool IsTopRow(BubbleRow row)
         {
             return row == rows[rows.Count - 1];
@@ -159,6 +161,11 @@ namespace PuzzleBobble
             }
         }
 
+
+        public void AddPoints(float points)
+        {
+            opponentMeter.AddToMeter(points);
+        }
 
         int GetClosestRowIndex(Bubble _bubble)
         {
@@ -284,6 +291,7 @@ namespace PuzzleBobble
             // Remove those marked
             foreach (var toRemove in markForRemoval)
             {
+                AddPoints(1);
                 // TODO: May need it's own function later
                 toRemove.ClearBubble();
             }
