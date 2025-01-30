@@ -294,7 +294,8 @@ namespace PuzzleBobble
             // Remove those marked
             foreach (var toRemove in markForRemoval)
             {
-                AddPoints(1);
+                if (!toRemove.monster)
+                    AddPoints(1);
                 // TODO: May need it's own function later
                 toRemove.ClearBubble();
             }

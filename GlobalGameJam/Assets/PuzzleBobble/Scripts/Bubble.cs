@@ -72,6 +72,29 @@ namespace PuzzleBobble
 
                     }
 
+                    // Clear monster parts that were near the bubbles
+                    List<Bubble> monCheck = new(toCheckForRemoval);
+                    foreach (Bubble potentialMon in monCheck)
+                    {
+                        if (potentialMon.monster)
+                        {
+                            List<Bubble> monConnected = potentialMon.GetConnectedBubbles();
+
+                            foreach(var monNeighor in monConnected)
+                            {
+                                if (!monCheck.Contains(monNeighor))
+                                {
+                                    toCheckForRemoval.Add(monNeighor);
+                                }
+                            }
+
+                            //potentialMon.parentRow.matrix.AddPoints(3);
+                            potentialMon.ClearBubble();
+
+                            toCheckForRemoval.Remove(potentialMon);
+                        }
+                    }
+
                     // Tell the player they can fire again
                     // TODO: Maybe make this a coroutine on the player, as if we do it here it will be canceled when this object is destroyed.
                     control.canFire = true;
