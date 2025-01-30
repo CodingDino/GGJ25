@@ -20,8 +20,7 @@ namespace PuzzleBobble
     {
         private int player = 1;
         public float startSpeed = 1f;
-        public float speedIncreaseDur = 10f;
-        public float speedIncreaseAmmount = 0.5f;
+        public float speedPerAlien = 0.5f;
         public float spacing = 1f;
         public int startingRows = 8;
         public int filledRowIndex = 15;
@@ -126,10 +125,21 @@ namespace PuzzleBobble
         // Update is called once per frame
         void FixedUpdate()
         {
-            // Move
-            for(int i = 0; i < rows.Count; i++)
+            // Get numberof aliens
+            int numAliens = 0;
+            foreach(var row in rows)
             {
-                rows[i].transform.Translate(Vector3.down * speed * Time.deltaTime);
+                foreach (var bubble in row.bubbleSlots)
+                {
+                    if (bubble && bubble.monster)
+                        ++numAliens;
+                }
+            }
+
+            // Move
+            for (int i = 0; i < rows.Count; i++)
+            {
+                rows[i].transform.Translate(Vector3.down * (speed+ speedPerAlien*numAliens) * Time.deltaTime);
 
             }
 
@@ -151,13 +161,6 @@ namespace PuzzleBobble
                 Destroy(row.gameObject);
                 SpawnNewRow(true);
 
-            }
-
-            // Increase speed
-            if (Time.time > lastSpeedChange + speedIncreaseDur)
-            {
-                lastSpeedChange = Time.time;
-                speed += speedIncreaseAmmount;
             }
         }
 

@@ -63,10 +63,15 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6122170092895302486, guid: 69213f5282e5ff942b7a8b84991283de,
+        type: 3}
+      propertyPath: monster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8551916188208637170, guid: 69213f5282e5ff942b7a8b84991283de,
         type: 3}
       propertyPath: m_Name
-      value: Bubble-Eye Variant
+      value: Bubble-Tentacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

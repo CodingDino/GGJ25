@@ -152,6 +152,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5820378248763218191, guid: 3a33244764d45404fba10ee0b597f64d,
+        type: 3}
+      propertyPath: monster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6098305391738062150, guid: 3a33244764d45404fba10ee0b597f64d,
         type: 3}
       propertyPath: m_IsActive
@@ -160,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 8259302753276055211, guid: 3a33244764d45404fba10ee0b597f64d,
         type: 3}
       propertyPath: m_Name
-      value: Bubble-Mouth Variant
+      value: Bubble-Arm2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

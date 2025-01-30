@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2797153592964020897, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
+        type: 3}
+      propertyPath: monster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1382684860951449351, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 8896386716268614395, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
         type: 3}
       propertyPath: m_Name
-      value: Bubble-Claw Variant
+      value: Bubble-ClawRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
