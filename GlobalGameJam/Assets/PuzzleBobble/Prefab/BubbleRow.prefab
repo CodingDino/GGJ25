@@ -70,7 +70,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 5669093829439933541}
-  spacing: 0.8
+  spacing: 0.7
   offset: 0
   matrix: {fileID: 0}
 --- !u!1 &2632429748316018575
@@ -238,7 +238,7 @@ MonoBehaviour:
   canBeStuckTo: 0
   cleared: 0
   control: {fileID: 0}
-  rowCol: {x: 0, y: 0}
+  col: 0
   parentRow: {fileID: 0}
 --- !u!1 &3935822374845644079
 GameObject:
@@ -405,5 +405,5 @@ MonoBehaviour:
   canBeStuckTo: 0
   cleared: 0
   control: {fileID: 0}
-  rowCol: {x: 0, y: 0}
+  col: 0
   parentRow: {fileID: 0}

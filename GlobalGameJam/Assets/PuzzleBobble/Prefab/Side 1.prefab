@@ -186,8 +186,8 @@ MonoBehaviour:
   startSpeed: 0.025
   speedIncreaseDur: 10
   speedIncreaseAmmount: 0.005
-  spacing: 0.7
-  startingRows: 12
+  spacing: 0.6
+  startingRows: 14
   filledRowIndex: 8
   offset: 0.4
   rowPrefab: {fileID: 7023451687586329309, guid: ebe799df93773c2488252983d7f9e1e7,
@@ -531,7 +531,7 @@ PrefabInstance:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
@@ -772,7 +772,7 @@ PrefabInstance:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.3
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
