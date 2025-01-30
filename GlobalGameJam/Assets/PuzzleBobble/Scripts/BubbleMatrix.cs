@@ -8,7 +8,6 @@ using NaughtyAttributes;
 [System.Serializable]
 public class MonsterArrangement
 {
-    public int numRows = 1;
     public Bubble[] row1;
     public Bubble[] row2offset;
     public Bubble[] row3;
@@ -412,7 +411,8 @@ namespace PuzzleBobble
         public void SpawnMonsterPart(BubbleRow _row, Bubble _monsterPart, int _col)
         {
             // Remove any existing bubble
-            Destroy(_row.bubbleSlots[_col]);
+            if (_row.bubbleSlots[_col])
+                Destroy(_row.bubbleSlots[_col].gameObject);
 
             // Add and position new monster bubble
             _row.AddBubble(Instantiate(_monsterPart, _row.transform), _col);
