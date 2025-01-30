@@ -1,8 +1,19 @@
+using PuzzleBobble;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
+using NaughtyAttributes;
+
+
+[System.Serializable]
+public class MonsterArrangement
+{
+    public int numRows = 1;
+    public Bubble[] row1;
+    public Bubble[] row2offset;
+    public Bubble[] row3;
+    public Bubble[] row4offset;
+}
 
 namespace PuzzleBobble
 {
@@ -28,6 +39,11 @@ namespace PuzzleBobble
         private bool lastRowLeft = false;
 
         public WinPanel win;
+
+        public MonsterArrangement[] monsters;
+
+        public int minMonsterSpawn = 5;
+        public int maxMonsterSpawn = 10;
 
         public bool IsTopRow(BubbleRow row)
         {
@@ -333,5 +349,154 @@ namespace PuzzleBobble
             // TODO: squash/stretch bubble effect for bubble setting (maybe also squash/stretch the bubble(s) we hit
 
         }
+
+        [Button]
+        public void SpawnMonster()
+        {
+            int randMonIndex = Random.Range(0, monsters.Length);
+
+            MonsterArrangement chosenMonster = monsters[randMonIndex];
+
+            // Determine valid place for monster
+            bool valid = false;
+            int rowI = -1;
+            int colI = -1;
+            BubbleRow row = null;
+            while (!valid)
+            {
+                rowI = Random.Range(minMonsterSpawn, maxMonsterSpawn + 1);
+                row = rows[rowI];
+                colI = Random.Range(0, row.bubbleSlots.Length);
+                valid = CheckMonsterLocation(chosenMonster, rowI, colI);
+            }
+
+            // Place the monster
+            // Row 1
+            row = rows[rowI];
+            for(int i = 0; i < chosenMonster.row1.Length; ++i)
+            {
+                if (chosenMonster.row1[i])
+                {
+                    SpawnMonsterPart(row, chosenMonster.row1[i], colI + i);
+                }
+            }
+            // Row 2
+            row = rows[rowI-1];
+            for (int i = 0; i < chosenMonster.row2offset.Length; ++i)
+            {
+                if (chosenMonster.row2offset[i])
+                {
+                    SpawnMonsterPart(row, chosenMonster.row2offset[i], colI + i);
+                }
+            }
+            // Row 3
+            row = rows[rowI-2];
+            for (int i = 0; i < chosenMonster.row3.Length; ++i)
+            {
+                if (chosenMonster.row3[i])
+                {
+                    SpawnMonsterPart(row, chosenMonster.row3[i], colI + i);
+                }
+            }
+            // Row 4
+            row = rows[rowI - 3];
+            for (int i = 0; i < chosenMonster.row4offset.Length; ++i)
+            {
+                if (chosenMonster.row4offset[i])
+                {
+                    SpawnMonsterPart(row, chosenMonster.row4offset[i], colI + i);
+                }
+            }
+        }
+
+        public void SpawnMonsterPart(BubbleRow _row, Bubble _monsterPart, int _col)
+        {
+            // Remove any existing bubble
+            Destroy(_row.bubbleSlots[_col]);
+
+            // Add and position new monster bubble
+            _row.AddBubble(Instantiate(_monsterPart, _row.transform), _col);
+            _row.PositionBubble(_row.bubbleSlots[_col], _col);
+
+            // TODO: Animate?
+        }
+
+        public bool CheckMonsterLocation(MonsterArrangement _monster, int rowI, int colI)
+        {
+            BubbleRow row = rows[rowI];
+
+            // row1 must be NOT offset
+            if (row.offset)
+                return false;
+
+
+            // Check that each part of the monster is within bounds
+            int firstRowIndex = 0;
+            for (int i = 0; i < _monster.row1.Length; ++i)
+            {
+                if (_monster.row1[i])
+                {
+                    firstRowIndex = i;
+                    break;
+                }
+            }
+
+            // Check row1 col1 location contains a bubble and is connected to the top
+            List<Bubble> topSearch = new();
+            if (row.bubbleSlots[colI+ firstRowIndex] && row.bubbleSlots[colI+ firstRowIndex].HasPathToTopRow(ref topSearch))
+            {
+                // Check that each part of the monster is within bounds
+                for (int i = 0; i < _monster.row1.Length; ++i)
+                {
+                    if (_monster.row1[i])
+                    {
+                        if (colI+i >= row.bubbleSlots.Length)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                row = rows[rowI-1];
+                for (int i = 0; i < _monster.row2offset.Length; ++i)
+                {
+                    if (_monster.row2offset[i])
+                    {
+                        if (colI + i >= row.bubbleSlots.Length)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                row = rows[rowI-2];
+                for (int i = 0; i < _monster.row3.Length; ++i)
+                {
+                    if (_monster.row3[i])
+                    {
+                        if (colI + i >= row.bubbleSlots.Length)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                row = rows[rowI-3];
+                for (int i = 0; i < _monster.row4offset.Length; ++i)
+                {
+                    if (_monster.row4offset[i])
+                    {
+                        if (colI + i >= row.bubbleSlots.Length)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
     }
 }

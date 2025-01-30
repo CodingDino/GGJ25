@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using System;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 namespace PuzzleBobble
 {
@@ -20,6 +21,11 @@ namespace PuzzleBobble
         public bool IsTopRow()
         {
             return GetComponentInParent<BubbleMatrix>().IsTopRow(this);
+        }
+
+        public void PositionBubble(Bubble bubble, int col)
+        {
+            bubble.transform.position = GetSlotPos(col);
         }
 
         public void AddBubble(Bubble bubble, int col)
