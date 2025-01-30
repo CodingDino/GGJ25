@@ -547,8 +547,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.4
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
@@ -599,6 +604,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall-R
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200202631083030855, guid: 6065127b4252bb44da7e454f88d58275,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -788,8 +798,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.4
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 93989831376407886, guid: 6065127b4252bb44da7e454f88d58275,
         type: 3}
@@ -840,6 +855,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall-L
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200202631083030855, guid: 6065127b4252bb44da7e454f88d58275,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
