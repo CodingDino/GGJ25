@@ -25,7 +25,8 @@ namespace PuzzleBobble
         public int startingRows = 8;
         public int filledRowIndex = 15;
         public float offset = 0.25f;
-        
+        public float speedIncreaseDur = 10f;
+        public float speedIncreaseAmmount = 0.5f;
 
         private List<BubbleRow> rows = new();
 
@@ -47,6 +48,10 @@ namespace PuzzleBobble
         public AlienMeter opponentMeter;
 
         public AudioSource[] alienSFX = null;
+
+        public DeathLine deathLine;
+
+
 
         public bool IsTopRow(BubbleRow row)
         {
@@ -154,6 +159,15 @@ namespace PuzzleBobble
                 win.ShowPanel(player == 1 ? 2 : 1);
             }
 
+            if (rows[1].HasBubbles())
+            {
+                deathLine.StartFlash();
+            }
+            else
+            {
+                deathLine.StopFlash();
+            }
+
             // row has reached bottom, time to move up
             if (rows[0].transform.position.y < transform.position.y)
             {
@@ -164,6 +178,13 @@ namespace PuzzleBobble
                 Destroy(row.gameObject);
                 SpawnNewRow(true);
 
+            }
+
+            // Increase speed
+            if (Time.time > lastSpeedChange + speedIncreaseDur)
+            {
+                lastSpeedChange = Time.time;
+                speed += speedIncreaseAmmount;
             }
         }
 
