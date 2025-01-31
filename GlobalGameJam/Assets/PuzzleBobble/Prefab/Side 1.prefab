@@ -804,7 +804,7 @@ MonoBehaviour:
   - {fileID: 3669329983933894778}
   - {fileID: 5526292114034521479}
   - {fileID: 5610804076484975632}
-  deathLine: {fileID: 0}
+  deathLine: {fileID: 5114631004212016877}
 --- !u!1 &5739931997247596634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,6 +3173,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeathLine
       objectReference: {fileID: 0}
+    - target: {fileID: 8112387924511144364, guid: 3ac33d19a47d05b4e88070e11f7009aa,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 836e6449e5ad0c245bb775b1fc822866, type: 2}
     m_RemovedComponents:
     - {fileID: 2802715768582770623, guid: 3ac33d19a47d05b4e88070e11f7009aa, type: 3}
     m_RemovedGameObjects: []
@@ -3182,6 +3187,12 @@ PrefabInstance:
 --- !u!4 &4294056927585449530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1007014235486501243, guid: 3ac33d19a47d05b4e88070e11f7009aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3922120819087904577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5114631004212016877 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8112387924511144364, guid: 3ac33d19a47d05b4e88070e11f7009aa,
     type: 3}
   m_PrefabInstance: {fileID: 3922120819087904577}
   m_PrefabAsset: {fileID: 0}

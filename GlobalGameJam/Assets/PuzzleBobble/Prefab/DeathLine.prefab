@@ -513,8 +513,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1007014235486501243}
-  - component: {fileID: 594105622817853406}
-  - component: {fileID: 2802715768582770623}
+  - component: {fileID: 8112387924511144364}
   m_Layer: 0
   m_Name: DeathLine
   m_TagString: Untagged
@@ -545,44 +544,27 @@ Transform:
   - {fileID: 7984841025313041186}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &594105622817853406
-Animation:
+--- !u!95 &8112387924511144364
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6446193062094479270}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 2e5fa88041bafee488dde257e1789337, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 2e5fa88041bafee488dde257e1789337, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!114 &2802715768582770623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6446193062094479270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5da7fd69c9d69f42a3c80f3cf3b5ad3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  falshDur: 0.3
-  sprites:
-  - {fileID: 7389891206114334893}
-  - {fileID: 1810550581316338828}
-  - {fileID: 6096317419724482594}
-  - {fileID: 8273999226631200602}
-  - {fileID: 8656521568361220634}
-  - {fileID: 3877119399375227798}
-  - {fileID: 231718515437109031}
-  - {fileID: 1583351031864421195}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7580456108063720424
 GameObject:
   m_ObjectHideFlags: 0
