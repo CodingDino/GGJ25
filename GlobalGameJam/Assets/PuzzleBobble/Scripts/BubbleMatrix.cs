@@ -49,7 +49,7 @@ namespace PuzzleBobble
 
         public AudioSource[] alienSFX = null;
 
-        public DeathLine deathLine;
+        public Animator deathLine;
 
 
 
@@ -161,11 +161,13 @@ namespace PuzzleBobble
 
             if (rows[1].HasBubbles())
             {
-                deathLine.StartFlash();
+                if (deathLine)
+                    deathLine.SetBool("Red", true);
             }
             else
             {
-                deathLine.StopFlash();
+                if (deathLine)
+                    deathLine.SetBool("Red", false);
             }
 
             // row has reached bottom, time to move up
