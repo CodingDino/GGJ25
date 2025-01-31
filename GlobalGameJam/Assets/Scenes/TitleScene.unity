@@ -879,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cover: {fileID: 45240542}
-  scene: PuzzleBobble
+  scene: Tutorial
 --- !u!1 &2131614249
 GameObject:
   m_ObjectHideFlags: 0
