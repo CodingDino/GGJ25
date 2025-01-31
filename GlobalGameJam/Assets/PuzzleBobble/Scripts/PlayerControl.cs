@@ -70,6 +70,8 @@ namespace PuzzleBobble
         // Update is called once per frame
         void Update()
         {
+            if (Time.timeScale == 0) return;
+
             // Swap ze bubble!
             if (Input.GetButtonDown(player + "-" + buttonSwap))
             {
