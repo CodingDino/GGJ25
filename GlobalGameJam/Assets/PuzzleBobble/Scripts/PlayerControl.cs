@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -42,6 +43,8 @@ namespace PuzzleBobble
 
         public AudioSource turningSFX = null;
 
+        public SpriteRenderer[] pips = null;
+
         bool IsControllerConnected(int index)
         {
             string[] controllers = Input.GetJoystickNames();
@@ -56,6 +59,12 @@ namespace PuzzleBobble
             nextBubble = InstantiateRandomBubble();
             currentBubble = InstantiateRandomBubble();
             currentBubble.transform.position = currentBubbleRoot.transform.position;
+            // Update pip colours
+            foreach (var pip in pips)
+            {
+                LeanTween.color(pip.gameObject, currentBubble.color, 0.5f)
+                    .setEase(LeanTweenType.easeInOutSine);
+            }
         }
 
         // Update is called once per frame
@@ -106,6 +115,14 @@ namespace PuzzleBobble
                 currentBubble = nextBubble;
                 currentBubble.transform.position = currentBubbleRoot.position;
 
+                // Update pip colours
+                foreach (var pip in pips)
+                {
+                    LeanTween.color(pip.gameObject, currentBubble.color, 0.5f)
+                        .setEase(LeanTweenType.easeInOutSine);
+                }
+
+                // new next bubble
                 nextBubble = InstantiateRandomBubble();
 
             }

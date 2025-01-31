@@ -10,6 +10,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2797153592964020897, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
         type: 3}
+      propertyPath: color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2797153592964020897, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
+        type: 3}
+      propertyPath: color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2797153592964020897, guid: 2a76c7d9ef5b9f0488bb1518cffaede0,
+        type: 3}
       propertyPath: bubbleType
       value: Green
       objectReference: {fileID: 0}

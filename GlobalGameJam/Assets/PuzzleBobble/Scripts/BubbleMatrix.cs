@@ -159,7 +159,7 @@ namespace PuzzleBobble
                 win.ShowPanel(player == 1 ? 2 : 1);
             }
 
-            if (rows[1].HasBubbles())
+            if (rows[1].HasBubbles()|| rows[2].HasBubbles())
             {
                 if (deathLine)
                     deathLine.SetBool("Red", true);

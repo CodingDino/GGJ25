@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -29,11 +30,14 @@ namespace PuzzleBobble
 
         public AudioSource popSFX = null;
 
+
         [HideInInspector]
         public float ogScale = 1f;
         public float shipScale = 0.3f;
 
         public AudioSource bounceSFX = null;
+
+        public Color color = Color.white;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
