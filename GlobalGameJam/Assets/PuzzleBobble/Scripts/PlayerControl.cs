@@ -45,6 +45,9 @@ namespace PuzzleBobble
 
         public SpriteRenderer[] pips = null;
 
+        public float shotCooldown;
+        private float lastShot = 0;
+
         bool IsControllerConnected(int index)
         {
             string[] controllers = Input.GetJoystickNames();
@@ -79,7 +82,7 @@ namespace PuzzleBobble
             }
 
             // Fire ze bubble!
-            if (Input.GetButtonDown(player + "-" + buttonFire) && canFire)
+            if (Input.GetButtonDown(player + "-" + buttonFire) && canFire && Time.time >= lastShot+shotCooldown)
             {
                 canonAnim.SetTrigger("Fire");
 
@@ -90,6 +93,8 @@ namespace PuzzleBobble
                     canonVFX.Play();
 
                 canFire = false;
+
+                lastShot = Time.time;
 
                 // TODO
                 Rigidbody2D rb = currentBubble.GetComponent<Rigidbody2D>();
