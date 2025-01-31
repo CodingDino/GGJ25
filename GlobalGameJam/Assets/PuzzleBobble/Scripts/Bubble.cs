@@ -70,7 +70,6 @@ namespace PuzzleBobble
                 }
 
                 // SFX
-
                 bounceSFX.pitch = Random.Range(0.9f, 1.1f);
                 bounceSFX.Play();
 

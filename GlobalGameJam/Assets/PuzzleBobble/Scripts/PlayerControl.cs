@@ -62,6 +62,7 @@ namespace PuzzleBobble
             nextBubble = InstantiateRandomBubble();
             currentBubble = InstantiateRandomBubble();
             currentBubble.transform.position = currentBubbleRoot.transform.position;
+            currentBubble.transform.parent = null;
             // Update pip colours
             foreach (var pip in pips)
             {
@@ -99,6 +100,7 @@ namespace PuzzleBobble
                 canFire = false;
 
                 lastShot = Time.time;
+                currentBubble.transform.parent = null;
 
                 // TODO
                 Rigidbody2D rb = currentBubble.GetComponent<Rigidbody2D>();
@@ -118,13 +120,13 @@ namespace PuzzleBobble
                 rb.velocity = rotatedVector * firingVelocity;
 
                 // Tween the size
-
                 LeanTween.scale(currentBubble.gameObject, currentBubble.ogScale * Vector3.one, 0.1f)
                 .setEase(LeanTweenType.easeInBack);
 
                 // Load next bubble
                 currentBubble = nextBubble;
                 currentBubble.transform.position = currentBubbleRoot.position;
+                currentBubble.transform.parent = currentBubbleRoot;
 
                 // Update pip colours
                 foreach (var pip in pips)
@@ -139,10 +141,13 @@ namespace PuzzleBobble
             }
 
             // Aiming
+            bool aiming = false;
+
+            /*
             if (IsControllerConnected(player-1))
             {
                 Vector2 aim = new Vector2(Input.GetAxis(player + "-" + axisH), Input.GetAxis(player + "-" + axisV));
-                if (aim.sqrMagnitude > 0.1f)
+                if (aim.sqrMagnitude > 0.5f)
                 {
                     aim = aim.normalized;
 
@@ -152,15 +157,13 @@ namespace PuzzleBobble
                     currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
                     aimRoot.rotation = Quaternion.Euler(0, 0, currentAngle);
 
-                    if (!turningSFX.isPlaying)
-                        turningSFX.Play();
+                    aiming = true;
                 }
-                else
-                    turningSFX.Pause();
             }
-            else
-            {
+            */
 
+            // button movement
+            {
                 float axisVal = Input.GetAxis(player + "-" + axisH);
                 currentAngle += axisVal * Time.deltaTime * rotateSpeed;
                 currentAngle = Mathf.Clamp(currentAngle, -maxAngle, maxAngle);
@@ -168,18 +171,19 @@ namespace PuzzleBobble
 
                 if (Mathf.Abs(axisVal) >= 0.1f)
                 {
-                    if (!turningSFX.isPlaying)
-                        turningSFX.Play();
+                    aiming = true;
                 }
-                else
-                    turningSFX.Pause();
-
             }
+
+            if (aiming && !turningSFX.isPlaying)
+                turningSFX.Play();
+            else if (!aiming && turningSFX.isPlaying)
+                turningSFX.Pause();
         }
 
         Bubble InstantiateRandomBubble()
         {
-            Bubble newBubble = Instantiate(possibleBubbles[Random.Range(0, possibleBubbles.Length)], nextBubbleRoot.position, Quaternion.identity);
+            Bubble newBubble = Instantiate(possibleBubbles[Random.Range(0, possibleBubbles.Length)], nextBubbleRoot.position, Quaternion.identity, nextBubbleRoot);
             newBubble.control = this;
             newBubble.SetOnShip();
             Rigidbody2D rb = newBubble.GetComponent<Rigidbody2D>();
@@ -194,11 +198,20 @@ namespace PuzzleBobble
             Bubble wasCurrentBubble = currentBubble;
             currentBubble = nextBubble;
             currentBubble.transform.position = currentBubbleRoot.position;
+            currentBubble.transform.parent = currentBubbleRoot;
             // TODO: tween
 
             nextBubble = wasCurrentBubble;
             nextBubble.transform.position = nextBubbleRoot.position;
+            nextBubble.transform.parent = nextBubbleRoot;
             // TODO: tween
+
+            // Update pip colours
+            foreach (var pip in pips)
+            {
+                LeanTween.color(pip.gameObject, currentBubble.color, 0.5f)
+                    .setEase(LeanTweenType.easeInOutSine);
+            }
         }
     }
 
