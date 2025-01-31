@@ -18,6 +18,7 @@ namespace PuzzleBobble
 
         static int bubbleNum = 0;
 
+
         public bool IsTopRow()
         {
             return GetComponentInParent<BubbleMatrix>().IsTopRow(this);

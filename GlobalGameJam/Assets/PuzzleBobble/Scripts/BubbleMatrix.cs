@@ -368,7 +368,8 @@ namespace PuzzleBobble
 
             if (!foundPos)
             {
-                Debug.LogError("Couldn't find valid position for bubble snap");
+                //Debug.LogError("Couldn't find valid position for bubble snap");
+                return; // failed
             }
 
             // Make the bubble a child of the grid
